@@ -1,0 +1,32 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Dependency directories
+jspm_packages/
+
+# Build output
+dist/
+build/
+
+# Environment files
+.env
+.env.*
+
+# Prisma
+prisma/dev.db
+prisma/dev.db-journal
+
+# TypeScript
+*.tsbuildinfo
+
+# Misc
+.DS_Store
+*.swp
+*.swo
+
+# VSCode
+.vscode/

@@ -1,0 +1,11 @@
+{
+  "name": "meu-projeto",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "prisma": "^6.19.0"
+  }
+}
