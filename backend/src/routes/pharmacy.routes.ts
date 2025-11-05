@@ -1,7 +1,11 @@
-import express from 'express';
+import { Router } from 'express';
 import { pharmacyController } from '../controllers/pharmacy.controller';
+import { authenticateToken } from '../middleware/auth.middleware';
 
-export const pharmacyRouter = express.Router();
+const pharmacyRouter = Router();
 
-pharmacyRouter.get('/', pharmacyController.getAll);
-pharmacyRouter.post('/', pharmacyController.create);
+// Rotas protegidas — só acessíveis com token JWT
+pharmacyRouter.get('/', authenticateToken, pharmacyController.getAll);
+pharmacyRouter.post('/', authenticateToken, pharmacyController.create);
+
+export default pharmacyRouter;

@@ -16,7 +16,7 @@ model User {
   role        Role       @default(CONSUMER) // CONSUMER | PHARMACY | ADMIN
   address     String?
   createdAt   DateTime   @default(now())
-  pharmacy    Pharmacy?  @relation("UserPharmacy")
+  pharmacy    Pharmacy?  @relation("UserPharmacy", fields: [pharmacyId], references: [id])
   pharmacyId  Int?       @unique
   orders      Order[]
 }
@@ -31,7 +31,7 @@ model Pharmacy {
   products    Product[]
   orders      Order[]
   createdAt   DateTime     @default(now())
-  owner       User?        @relation("UserPharmacy", fields: [ownerId], references: [id])
+  owner       User?        @relation("UserPharmacy")
   ownerId     Int?         @unique
 }
 
@@ -40,6 +40,7 @@ model Product {
   name        String
   description String?
   category    String
+  activeIngredient String      // Princípio ativo
   price       Float
   stock       Int          @default(0)
   imageUrl    String?
