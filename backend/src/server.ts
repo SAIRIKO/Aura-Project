@@ -1,12 +1,15 @@
-import express, { Request, Response } from "express";
-import cors from "cors";
+import express from 'express';
+import cors from 'cors';
+import { userRouter } from './routes/user.routes';
+import { pharmacyRouter } from './routes/pharmacy.routes';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (_req: Request, res: Response) => {
-  res.send("API Ok!");
-});
+// Rotas
+app.use('/users', userRouter);
+app.use('/pharmacies', pharmacyRouter);
 
-app.listen(3000, () => console.log("Servidor rodando em http://localhost:3000"));
+const PORT = 3000;
+app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
