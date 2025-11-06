@@ -1,7 +1,14 @@
-import express from 'express';
-import { authController } from '../controllers/auth.controller';
+// by spider
+// pode contar mudanças :) | :(
 
-export const authRouter = express.Router();
+import { Router } from "express";
+import { register, login, me } from "../controllers/auth.controller.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
 
-authRouter.post('/register', authController.register);
-authRouter.post('/login', authController.login);
+const router = Router();
+
+router.post("/register", register);
+router.post("/login", login);
+router.get("/me", authMiddleware, me);
+
+export default router;
