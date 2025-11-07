@@ -2,8 +2,8 @@
 // pode contar mudanças :) | :(
 
 import { Router } from "express";
-import { register, login, me } from "../controllers/auth.controller.js";
-import { authMiddleware } from "../middleware/auth.middleware.js";
+import { register, login, me } from "../controllers/auth.controller";
+import { authMiddleware } from "../middleware/auth.middleware";
 
 const router = Router();
 

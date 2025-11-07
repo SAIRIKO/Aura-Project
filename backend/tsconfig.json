@@ -1,23 +1,22 @@
 {
   "compilerOptions": {
-    /* Diretórios */
-    "rootDir": "./src",          // Onde está o código TypeScript
-    "outDir": "./dist",          // Onde será salvo o JS compilado
-
-    /* Módulos e compatibilidade */
-    "target": "ES2020",          // Versão moderna do JavaScript
-    "module": "node16",        // Compatível com Node.js
-    "moduleResolution": "node16",  // Resolve módulos como o Node.js
-    "esModuleInterop": true,     // Permite importar libs com "import express from 'express'"
-    "resolveJsonModule": true,   // Permite importar arquivos .json
-    "strict": true,              // Regras de tipagem mais seguras
-    "skipLibCheck": true,        // Ignora verificação de tipos das libs (mais rápido)
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-
-    /* Mapas e debug */
-    "sourceMap": true,           // Gera arquivos .map (útil para debug)
-    "noEmitOnError": true        // Evita gerar JS se houver erros
+    "sourceMap": true,
+    "noEmitOnError": true
   },
-  "include": ["src/**/*"],       // Inclui todos os arquivos TS da pasta src
-  "exclude": ["node_modules"]    // Ignora dependências
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

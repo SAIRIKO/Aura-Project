@@ -1,4 +1,4 @@
-import { prisma } from "../prismaClient.js";
+import { prisma } from "../prismaClient";
 import { Request, Response } from "express";
 
 export const userController = {
