@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 
 export default function App() {
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#fff', marginTop: 50 }}>
-      <Image source={require('./assets/ph.png')} style={{ width: '100%', height: undefined, aspectRatio: 402 / 1061, opacity: 0.5, zIndex: 10, position: 'absolute' }} resizeMode="contain" />
+    <ScrollView style={{ flex: 1, backgroundColor: '#fff', marginTop: 50 }} contentContainerStyle={{ height: 'auto' }}>
+      <Image source={require('./assets/ph.png')} style={{ width: '100%', height: undefined, aspectRatio: 402 / 1061, opacity: 0, zIndex: 10, position: 'absolute' }} resizeMode="contain" />
       {/* Header */}
       <View style={{ backgroundColor: '#f3f3f3', height: 79, width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.25)', zIndex: 9 }}>
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -24,6 +24,24 @@ export default function App() {
           <Text style={{ fontSize: 16, fontFamily: 'Inter', marginLeft: 21, marginTop: 4, opacity: 0.25 }}>Buscar produtos ou farmácias</Text>
         </View>
       </View>
+
+      {/* Categories */}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ width: 'auto', height: 61, backgroundColor: '#fff', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ width: 118, height: 36, backgroundColor: '#1A1B4F', marginHorizontal: 16, borderRadius: 20, display: 'flex', flexDirection: 'row' }}>
+          <Image source={require('./assets/categories/ofertas.png')} style={{ width: 26, height: 26, marginLeft: 12, marginTop: 6 }} resizeMode="contain"></Image>
+          <Text style={{ fontSize: 16, fontFamily: 'Inter', marginLeft: 6, marginTop: 9, color: '#fff' }}>Ofertas</Text>
+        </View>
+        <View style={{ width: 170, height: 36, backgroundColor: '#1B1B4F', borderRadius: 20, display: 'flex', flexDirection: 'row' }}>
+          <Image source={require('./assets/categories/maisbuscados.png')} style={{ width: 27, height: 27, marginLeft: 13, marginTop: 5 }} resizeMode="contain"></Image>
+          <Text style={{ fontSize: 16, fontFamily: 'Inter', marginLeft: 1, marginTop: 9, color: '#fff' }}>Mais buscados</Text>
+        </View>
+        <View style={{ width: 180, height: 36, backgroundColor: '#1C1B4F', marginHorizontal: 16, borderRadius: 20, display: 'flex', flexDirection: 'row'  }}>
+          <Image source={require('./assets/categories/medicamentos.png')} style={{ width: 27, height: 27, marginLeft: 14, marginTop: 4 }} resizeMode="contain"></Image>
+          <Text style={{ fontSize: 16, fontFamily: 'Inter', marginLeft: 7, marginTop: 9, color: '#fff' }}>Medicamentos</Text>
+        </View>
+      </ScrollView>
+
+      {/* Banners */}
     </ScrollView>
   );
 }
