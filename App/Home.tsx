@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { BlurView } from 'expo-blur';
+import { useCart } from './CartContext';
 
 type RootStackParamList = {
   Home: undefined;
@@ -18,6 +19,8 @@ type RootStackParamList = {
   SearchResults: {
     searchTerm: string;
   };
+  Carrinho: undefined;
+  CarrinhoItens: undefined;
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
@@ -31,8 +34,6 @@ export default function Home() {
     { id: '5', image: require('./assets/banners/banner5.png') },
     { id: '6', image: require('./assets/banners/banner6.png') },
   ]
-
-  const data = [1, 2, 3, 4, 5, 6]
 
   const produtosComDesconto = [
     { id: '1', nome: 'Lactosil 10.000 FCC Lactase', preco: 'R$ 22,96', unidades: '30un', image: require('./assets/remedios/lactosil.png'), desconto: '-20%', nav: 'Produto', precoOriginal: 'R$ 28,70' },
@@ -49,6 +50,8 @@ export default function Home() {
   const searchInputRef = useRef<TextInput>(null);
 
   const navigation = useNavigation<NavigationProp>();
+  const { items, totalItems } = useCart();
+  const cartRoute = items.length ? 'CarrinhoItens' : 'Carrinho';
 
   const handleBlurSearch = () => {
     searchInputRef.current?.blur();
@@ -70,7 +73,7 @@ export default function Home() {
       {isSearchFocused && (
         <>
           {/* Blur cobrindo o conteúdo abaixo da barra de pesquisa */}
-          <Pressable onPress={handleBlurSearch} style={{ position: 'absolute', top: 210, left: 0, right: 0, bottom: 0, zIndex: 50 }}>
+          <Pressable onPress={handleBlurSearch} style={{ position: 'absolute', top: 190, left: 0, right: 0, bottom: 0, zIndex: 50 }}>
             <BlurView
               intensity={10}
               style={{
@@ -87,13 +90,22 @@ export default function Home() {
       )}
 
       {/* Cabeçalho */}
-      <View style={{ backgroundColor: '#f3f3f3', height: 129, paddingTop: 50, width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.25)', zIndex: 10, position: 'static' }}>
-        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{ backgroundColor: '#f3f3f3', height: 100, paddingTop: 30, width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.25)', zIndex: 10, position: 'static' }}>
+        <Pressable onPress={() => navigation.navigate('Home')} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <Image source={require('./assets/header/logo.png')} style={{ width: 28, height: 28, marginLeft: 29 }}></Image>
           <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 3, marginTop: 3, fontFamily: 'Inter' }}>Aura</Text>
-        </View>
+        </Pressable>
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <Image source={require('./assets/header/cart.png')} style={{ width: 29, height: 24, marginRight: 26 }} resizeMode="contain"></Image>
+          <Pressable onPress={() => navigation.navigate(cartRoute)} style={{ position: 'relative' }}>
+            <Image source={require('./assets/header/cart.png')} style={{ width: 29, height: 24, marginRight: 26 }} resizeMode="contain"></Image>
+            {totalItems > 0 && (
+              <View style={{ position: 'absolute', top: -6, right: 14, minWidth: 18, height: 18, borderRadius: 9, backgroundColor: '#FF4D4F', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }}>
+                <Text style={{ fontSize: 10, fontFamily: 'Inter', fontWeight: '600', color: '#fff' }}>
+                  {totalItems}
+                </Text>
+              </View>
+            )}
+          </Pressable>
           <Image source={require('./assets/header/sidebar.png')} style={{ width: 23, height: 27, marginRight: 27 }}></Image>
         </View>
       </View>
