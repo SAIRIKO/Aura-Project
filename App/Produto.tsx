@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { BlurView } from 'expo-blur';
+import { useCart } from './CartContext';
 
 type RootStackParamList = {
     Home: undefined;
@@ -18,6 +19,8 @@ type RootStackParamList = {
     SearchResults: {
         searchTerm: string;
     };
+    Carrinho: undefined;
+    CarrinhoItens: undefined;
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
@@ -27,7 +30,9 @@ export default function Produto() {
     const navigation = useNavigation<NavigationProp>();
     const route = useRoute<ProdutoRouteProp>();
     const { id, nome, preco, unidades, image, desconto, precoOriginal } = route.params;
-    
+    const { addItem, items, totalItems } = useCart();
+    const cartRoute = items.length ? 'CarrinhoItens' : 'Carrinho';
+
     const [searchText, setSearchText] = useState('');
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     const searchInputRef = useRef<TextInput>(null);
@@ -51,33 +56,42 @@ export default function Produto() {
             {isSearchFocused && (
                 <>
                     {/* Blur cobrindo o conteúdo abaixo da barra de pesquisa */}
-                    <Pressable onPress={handleBlurSearch} style={{ position: 'absolute', top: 210, left: 0, right: 0, bottom: 0, zIndex: 50 }}>
-                        <BlurView 
-                            intensity={20} 
-                            style={{ 
-                                position: 'absolute', 
-                                top: 0, 
-                                left: 0, 
-                                right: 0, 
+                    <Pressable onPress={handleBlurSearch} style={{ position: 'absolute', top: 190, left: 0, right: 0, bottom: 0, zIndex: 50 }}>
+                        <BlurView
+                            intensity={10}
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
                                 bottom: 0,
                                 width: '100%'
-                            }} 
+                            }}
                         />
                     </Pressable>
                 </>
             )}
 
             {/* Cabeçalho */}
-            < Pressable onPress={() => navigation.navigate('Home')} style={{ backgroundColor: '#f3f3f3', height: 129, paddingTop: 50, width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.25)', zIndex: 10, position: 'static' }}>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ backgroundColor: '#f3f3f3', height: 100, paddingTop: 30, width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.25)', zIndex: 10, position: 'static' }}>
+                <Pressable onPress={() => navigation.navigate('Home')} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <Image source={require('./assets/header/logo.png')} style={{ width: 28, height: 28, marginLeft: 29 }}></Image>
                     <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 3, marginTop: 3, fontFamily: 'Inter' }}>Aura</Text>
-                </View>
+                </Pressable>
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <Image source={require('./assets/header/cart.png')} style={{ width: 29, height: 24, marginRight: 26 }} resizeMode="contain"></Image>
+                    <Pressable onPress={() => navigation.navigate(cartRoute)} style={{ position: 'relative' }}>
+                        <Image source={require('./assets/header/cart.png')} style={{ width: 29, height: 24, marginRight: 26 }} resizeMode="contain"></Image>
+                        {totalItems > 0 && (
+                            <View style={{ position: 'absolute', top: -6, right: 14, minWidth: 18, height: 18, borderRadius: 9, backgroundColor: '#FF4D4F', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }}>
+                                <Text style={{ fontSize: 10, fontFamily: 'Inter', fontWeight: '600', color: '#fff' }}>
+                                    {totalItems}
+                                </Text>
+                            </View>
+                        )}
+                    </Pressable>
                     <Image source={require('./assets/header/sidebar.png')} style={{ width: 23, height: 27, marginRight: 27 }}></Image>
                 </View>
-            </Pressable >
+            </View >
 
             {/* ScrollView (Abaixo da Header para manter a Header fixa no topo da tela) */}
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -156,9 +170,15 @@ export default function Produto() {
                         </View>
                         {/* Container de Comprar */}
                         <View style={{ width: '100%', height: '35%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                            <View style={{ width: '90%', height: '57%', backgroundColor: '#1A1B4F', marginTop: 6, borderRadius: 19, shadowColor: '#000', shadowOpacity: 0.25, shadowOffset: { width: 2, height: 3 }, shadowRadius: 2, elevation: 2 }}>
-                                <Text style={{ fontSize: 14, fontFamily: 'Inter', fontWeight: '500', color: 'white', textAlign: 'center', marginTop: 11 }}>Comprar</Text>
-                            </View>
+                            <Pressable
+                                onPress={() => {
+                                    addItem({ id, nome, preco, unidades, image, desconto, precoOriginal });
+                                    navigation.navigate('CarrinhoItens');
+                                }}
+                                style={{ width: '90%', height: '57%', backgroundColor: '#1A1B4F', marginTop: 6, borderRadius: 19, shadowColor: '#000', shadowOpacity: 0.25, shadowOffset: { width: 2, height: 3 }, shadowRadius: 2, elevation: 2, justifyContent: 'center' }}
+                            >
+                                <Text style={{ fontSize: 14, fontFamily: 'Inter', fontWeight: '500', color: 'white', textAlign: 'center' }}>Adicionar ao carrinho</Text>
+                            </Pressable>
                         </View>
                     </View>
                 </View>
