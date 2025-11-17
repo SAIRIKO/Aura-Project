@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { pharmacyController } from "../controllers/pharmacy.controller.js";
-import { authMiddleware } from "../middleware/auth.middleware.js";
+import { pharmacyController } from "../controllers/pharmacy.controller";
+import { authMiddleware } from "../middleware/auth.middleware";
 
 const pharmacyRouter = Router();
 

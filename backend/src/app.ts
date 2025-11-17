@@ -1,5 +1,5 @@
 import express from "express";
-import pharmacyRouter from "./routes/pharmacy.routes.js";
+import pharmacyRouter from "./routes/pharmacy.routes";
 
 const app = express();
 

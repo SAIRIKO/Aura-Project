@@ -1,12 +1,12 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { prisma } from "./prismaClient.js";
-import authRouter from "./routes/auth.routes.js";
-import { userRouter } from "./routes/user.routes.js";
-import pharmacyRouter from "./routes/pharmacy.routes.js";
-import { productRouter } from "./routes/product.routes.js";
-import { adminRouter } from "./routes/admin.routes.js";
+import { prisma } from "./prismaClient";
+import authRouter from "./routes/auth.routes";
+import { userRouter } from "./routes/user.routes";
+import pharmacyRouter from "./routes/pharmacy.routes";
+import { productRouter } from "./routes/product.routes";
+import { adminRouter } from "./routes/admin.routes";
 
 dotenv.config();
 
@@ -34,13 +34,13 @@ const PORT = process.env.PORT || 4000;
 async function startServer() {
   try {
     await prisma.$connect();
-    console.log("✅ Conexão com o banco estabelecida com sucesso.");
+    console.log("Conexão com o banco estabelecida com sucesso.");
 
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+      console.log(`Servidor rodando em http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error("❌ Erro ao conectar ao banco:", error);
+    console.error("Erro ao conectar ao banco:", error);
     process.exit(1);
   }
 }

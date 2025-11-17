@@ -2,7 +2,7 @@
 // pode contar mudanças :) | :(
 
 import { Request, Response } from "express";
-import { prisma } from "../prismaClient.js";
+import { prisma } from "../prismaClient";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -26,7 +26,12 @@ export const register = async (req: Request, res: Response) => {
     data: { name, email, password: hash },
   });
 
-  const token = jwt.sign({ sub: user.id }, JWT_SECRET, { expiresIn: "7d" });
+  const token = jwt.sign(
+    { sub: user.id, role: user.role },
+    JWT_SECRET,
+    { expiresIn: "7d" }
+  );
+
   return res.status(201).json({
     id: user.id,
     name: user.name,
@@ -45,11 +50,17 @@ export const login = async (req: Request, res: Response) => {
   if (!match)
     return res.status(401).json({ message: "Credenciais inválidas." });
 
-  const token = jwt.sign({ sub: user.id }, JWT_SECRET, { expiresIn: "7d" });
+  const token = jwt.sign(
+    { sub: user.id, role: user.role },
+    JWT_SECRET,
+    { expiresIn: "7d" }
+  );
+
   return res.json({
     id: user.id,
     name: user.name,
     email: user.email,
+    role: user.role,
     token,
   });
 };

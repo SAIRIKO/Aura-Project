@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { prisma } from "../prismaClient.js";
+import { prisma } from "../prismaClient";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 
 export const pharmacyController = {
