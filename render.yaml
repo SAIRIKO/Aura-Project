@@ -14,3 +14,5 @@ services:
         fromSecret: SUPABASE_KEY
       - key: JWT_SECRET
         fromSecret: JWT_SECRET
+      - key: DATABASE_URL
+        fromSecret: DATABASE_URL
