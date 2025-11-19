@@ -7,6 +7,7 @@ import { userRouter } from "./routes/user.routes";
 import pharmacyRouter from "./routes/pharmacy.routes";
 import { productRouter } from "./routes/product.routes";
 import { adminRouter } from "./routes/admin.routes";
+import { supabase } from "./supabaseClient";
 
 dotenv.config();
 
@@ -48,3 +49,29 @@ async function startServer() {
 }
 
 startServer();
+
+app.get("/api/health", async (req, res) => {
+  try {
+    const { data, error } = await supabase.from("users").select("id").limit(1);
+
+    if (error) {
+      return res.status(500).json({
+        status: "error",
+        database: "offline",
+        error: error.message
+      });
+    }
+
+    res.json({
+      status: "ok",
+      database: "online",
+      exampleQuery: data
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      database: "offline",
+      details: err
+    });
+  }
+});

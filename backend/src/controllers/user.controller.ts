@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { supabase } from "../supabaseClient";
+import bcrypt from "bcryptjs";
 
 export const userController = {
   // Listar todos os usuários
@@ -23,14 +24,29 @@ export const userController = {
     }
   },
 
-  // Criar usuário
+  // Criar usuário (ADM criando)
   async create(req: Request, res: Response) {
     const { name, email, password, role } = req.body;
 
     try {
+      // Verificar e-mail duplicado
+      const { data: existing } = await supabase
+        .from("users")
+        .select("*")
+        .eq("email", email)
+        .limit(1);
+
+      if (existing && existing.length > 0) {
+        return res.status(409).json({ error: "Email já cadastrado." });
+      }
+
+      // Criptografar senha
+      const hash = await bcrypt.hash(password, 10);
+
+      // Inserir usuário
       const { data: user, error } = await supabase
         .from("users")
-        .insert([{ name, email, password, role }])
+        .insert([{ name, email, password: hash, role }])
         .select()
         .single();
 
@@ -41,6 +57,7 @@ export const userController = {
       }
 
       res.status(201).json(user);
+
     } catch (error) {
       res
         .status(400)

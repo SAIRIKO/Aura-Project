@@ -7,6 +7,10 @@ export const adminController = {
     try {
       const id = Number(req.params.id);
 
+      if (!id) {
+        return res.status(400).json({ error: "ID inválido." });
+      }
+
       // Atualiza o campo "approved" para true
       const { data: pharmacy, error } = await supabase
         .from("pharmacies")
@@ -18,18 +22,18 @@ export const adminController = {
       if (error) {
         return res.status(400).json({
           error: "Erro ao aprovar farmácia",
-          details: error,
+          details: error.message,
         });
       }
 
-      res.json({
+      return res.json({
         message: "Farmácia aprovada com sucesso!",
         pharmacy,
       });
     } catch (error) {
-      res.status(400).json({
+      return res.status(500).json({
         error: "Erro inesperado ao aprovar farmácia",
-        details: error,
+        details: (error as any).message,
       });
     }
   },
