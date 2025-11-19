@@ -18,9 +18,3 @@ services:
         fromSecret: SUPABASE_SERVICE_ROLE
       - key: SUPABASE_URL
         fromSecret: SUPABASE_URL
-secrets: 
-  - name: DATABASE_URL
-  - name: JWT_SECRET
-  - name: SUPABASE_ANON_KEY
-  - name: SUPABASE_SERVICE_ROLE
-  - name: SUPABASE_URL
