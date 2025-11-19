@@ -8,5 +8,19 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-    envVarGroups:
-      - aura-secrets
+      - key: DATABASE_URL
+        fromSecret: DATABASE_URL
+      - key: JWT_SECRET
+        fromSecret: JWT_SECRET
+      - key: SUPABASE_ANON_KEY
+        fromSecret: SUPABASE_ANON_KEY
+      - key: SUPABASE_SERVICE_ROLE
+        fromSecret: SUPABASE_SERVICE_ROLE
+      - key: SUPABASE_URL
+        fromSecret: SUPABASE_URL
+secrets: 
+  - name: DATABASE_URL
+  - name: JWT_SECRET
+  - name: SUPABASE_ANON_KEY
+  - name: SUPABASE_SERVICE_ROLE
+  - name: SUPABASE_URL
