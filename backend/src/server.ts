@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { prisma } from "./prismaClient";
+
 import authRouter from "./routes/auth.routes";
 import { userRouter } from "./routes/user.routes";
 import pharmacyRouter from "./routes/pharmacy.routes";
@@ -24,8 +24,8 @@ app.use("/api/products", productRouter);
 app.use("/api/admin", adminRouter);
 
 // === Rota base (teste rápido) ===
-app.get("/", (req, res) => {
-  res.json({ message: "🚀 API Aura Project online!" });
+app.get("/", (_req, res) => {
+  res.json({ message: "🚀 API Aura Project online with Supabase!" });
 });
 
 // === Inicialização do servidor ===
@@ -33,14 +33,16 @@ const PORT = process.env.PORT || 4000;
 
 async function startServer() {
   try {
-    await prisma.$connect();
-    console.log("Conexão com o banco estabelecida com sucesso.");
+    console.log(" Conectando ao Supabase...");
+
+    console.log(" Conectado ao Supabase.");
 
     app.listen(PORT, () => {
-      console.log(`Servidor rodando em http://localhost:${PORT}`);
+      console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
     });
+
   } catch (error) {
-    console.error("Erro ao conectar ao banco:", error);
+    console.error("❌ Erro ao conectar ao Supabase:", error);
     process.exit(1);
   }
 }

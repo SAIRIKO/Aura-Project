@@ -8,13 +8,13 @@
     "build": "tsc",
     "start": "node dist/server.js"
   },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+  "supabase": {
+    "seed": "ts-node supabase/seed.ts"
   },
   "author": "Murilo",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^6.19.0",
+    "@supabase/supabase-js": "^2.83.0",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
@@ -27,7 +27,6 @@
     "@types/express": "^4.17.25",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20.5.0",
-    "prisma": "^6.19.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"

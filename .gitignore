@@ -16,9 +16,9 @@ build/
 .env
 .env.*
 
-# Prisma
-prisma/dev.db
-prisma/dev.db-journal
+# supabase
+supabase/dev.db
+supabase/dev.db-journal
 
 # TypeScript
 *.tsbuildinfo

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { prisma } from "../prismaClient";
+import { supabase } from "../supabaseClient";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -28,9 +28,14 @@ export const requireAdmin = async (
             role?: string;
         };
 
-        // Busca o usuário no banco
-        const user = await prisma.user.findUnique({ where: { id: decoded.sub } });
-        if (!user)
+        // 🔥 BUSCA CORRETA NO SUPABASE
+        const { data: user, error } = await supabase
+            .from("users")
+            .select("*")
+            .eq("id", decoded.sub)
+            .single();
+
+        if (error || !user)
             return res.status(404).json({ error: "Usuário não encontrado" });
 
         if (user.role !== "ADMIN") {
