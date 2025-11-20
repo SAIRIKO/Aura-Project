@@ -3,7 +3,12 @@ import { View, TextInput, Text, TouchableOpacity, Image, Alert, Modal, ActivityI
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_BASE_URL, ENDPOINTS } from "./api.config";
 import type { StackNavigationProp } from '@react-navigation/stack';
+import * as WebBrowser from "expo-web-browser";
+import * as Google from "expo-auth-session/providers/google";
+import { supabase } from "./src/services/supabaseClient";
+import { useEffect } from "react";
 
+WebBrowser.maybeCompleteAuthSession();
 
 type RootStackParamList = {
     Home: undefined;
@@ -78,6 +83,39 @@ export default function Login({ navigation }: LoginProps) {
             setRecoveryLoading(false);
         }
     };
+
+    const [request, response, promptAsync] = Google.useAuthRequest({
+        androidClientId: "SEU_ANDROID_CLIENT_ID",
+        iosClientId: "SEU_IOS_CLIENT_ID",
+        webClientId: "SEU_WEB_CLIENT_ID",
+    });
+
+    useEffect(() => {
+        if (response?.type === "success") {
+            const idToken = response.authentication?.idToken;
+
+            if (!idToken) {
+                console.log("ID Token não retornado");
+                return;
+            }
+
+            handleGoogleAuth(idToken);
+        }
+    }, [response]);
+
+    async function handleGoogleAuth(idToken: string) {
+        const { data, error } = await supabase.auth.signInWithIdToken({
+            provider: "google",
+            token: idToken,
+        });
+
+        if (error) {
+            console.log("Erro ao logar com Google:", error.message);
+            return;
+        }
+
+        console.log("Logado via Google:", data);
+    }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -181,7 +219,7 @@ export default function Login({ navigation }: LoginProps) {
                     {/* Outros métodos de entrada */}
                     <Text style={{ color: "#666", fontSize: 14, marginBottom: 20, fontFamily: "Inter" }}>Outros métodos de entrada</Text>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", width: "65%", marginBottom: 30 }}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => promptAsync()}>
                             <Image source={require("./assets/login/google.png")} style={{ width: 40, height: 40 }} />
                         </TouchableOpacity>
                         <TouchableOpacity>
