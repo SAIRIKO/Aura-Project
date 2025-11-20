@@ -11,9 +11,9 @@ const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 
 // ======================= REGISTER =======================
 export const register = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, CPF, birth, gender, phone } = req.body;
 
-  if (!name || !email || !password)
+  if (!name || !email || !password || !CPF || !birth || !gender || !phone)
     return res.status(400).json({ message: "Preencha todos os campos." });
 
   // Verificar se usuário já existe
@@ -21,6 +21,8 @@ export const register = async (req: Request, res: Response) => {
     .from("users")
     .select("*")
     .eq("email", email)
+    .eq("CPF", CPF)
+    .limit(1)
     .single();
 
   // Se já existe, impede cadastro
@@ -33,7 +35,7 @@ export const register = async (req: Request, res: Response) => {
   // Criar usuário
   const { data: user, error: createError } = await supabase
     .from("users")
-    .insert([{ name, email, password: hash }])
+    .insert([{ name, email, password: hash, CPF, birth, gender, phone, role: "user" }])
     .select()
     .single();
 
@@ -50,18 +52,24 @@ export const register = async (req: Request, res: Response) => {
     id: user.id,
     name: user.name,
     email: user.email,
+    role: user.role,
+    cpf: user.CPF,
+    birth: user.birth,
+    gender: user.gender,
+    phone: user.phone,
     token,
   });
 };
 
 // ======================= LOGIN =======================
 export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { CPF, email, password } = req.body;
 
   const { data: user, error } = await supabase
     .from("users")
     .select("*")
     .eq("email", email)
+    .eq("CPF", CPF)
     .single();
 
   if (!user)
@@ -82,6 +90,10 @@ export const login = async (req: Request, res: Response) => {
     name: user.name,
     email: user.email,
     role: user.role,
+    cpf: user.CPF,
+    birth: user.birth,
+    gender: user.gender,
+    phone: user.phone,
     token,
   });
 };
@@ -92,7 +104,7 @@ export const me = async (req: Request, res: Response) => {
 
   const { data: user, error } = await supabase
     .from("users")
-    .select("id, name, email")
+    .select("id, name, email, role, CPF, birth, gender, phone")
     .eq("id", userId)
     .single();
 

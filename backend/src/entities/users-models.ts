@@ -4,12 +4,17 @@ import { Order } from "./pharmacy.js";
 import { Product } from "./pharmacy.js";
 
 type Role = "user" | "pharmacy" | "admin" | "pharmacyOwner";
+type Gender = "male" | "female" | "other" | "not_informed";
 
 interface BaseUser {
   id: number;
   name: string;
   email: string;
   password: string;
+  CPF: number;
+  birth: Date;
+  gender: Gender;
+  phone: number;
   role: Role;
   address?: string;
 }

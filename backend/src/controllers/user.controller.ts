@@ -26,18 +26,19 @@ export const userController = {
 
   // Criar usuário (ADM criando)
   async create(req: Request, res: Response) {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, CPF, birth, gender, phone } = req.body;
 
     try {
-      // Verificar e-mail duplicado
+      // Verificar e-mail ou CPF duplicado
       const { data: existing } = await supabase
         .from("users")
         .select("*")
         .eq("email", email)
+        .eq("CPF", CPF)
         .limit(1);
 
       if (existing && existing.length > 0) {
-        return res.status(409).json({ error: "Email já cadastrado." });
+        return res.status(409).json({ error: "Usuário já cadastrado." });
       }
 
       // Criptografar senha
@@ -46,7 +47,7 @@ export const userController = {
       // Inserir usuário
       const { data: user, error } = await supabase
         .from("users")
-        .insert([{ name, email, password: hash, role }])
+        .insert([{ name, email, password: hash, role, CPF, birth, gender, phone }])
         .select()
         .single();
 

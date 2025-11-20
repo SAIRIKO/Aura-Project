@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_BASE_URL, ENDPOINTS } from "./api.config";
 import type { StackNavigationProp } from '@react-navigation/stack';
 
+
 type RootStackParamList = {
     Home: undefined;
     Register: undefined;

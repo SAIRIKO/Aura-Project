@@ -28,7 +28,7 @@ export const requireAdmin = async (
             role?: string;
         };
 
-        // 🔥 BUSCA CORRETA NO SUPABASE
+        // BUSCA CORRETA NO SUPABASE
         const { data: user, error } = await supabase
             .from("users")
             .select("*")
