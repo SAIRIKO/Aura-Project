@@ -65,11 +65,18 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   const { CPF, email, password } = req.body;
 
+  if (!CPF && !email) {
+    return res.status(400).json({ message: "Informe CPF ou e-mail." });
+  }
+
+  const condition = [];
+  if (email) condition.push(`email.eq.${email}`);
+  if (CPF) condition.push(`CPF.eq.${CPF}`);
+
   const { data: user, error } = await supabase
     .from("users")
     .select("*")
-    .eq("email", email)
-    .eq("CPF", CPF)
+    .or(condition.join(","))
     .single();
 
   if (!user)
