@@ -45,9 +45,20 @@ export const userController = {
       const hash = await bcrypt.hash(password, 10);
 
       // Inserir usuário
+      const safeRole = role || "CONSUMER";
+
       const { data: user, error } = await supabase
         .from("users")
-        .insert([{ name, email, password: hash, role, CPF, birth, gender, phone }])
+        .insert([{
+          name,
+          email,
+          password: hash,
+          role: safeRole,
+          CPF,
+          birth,
+          gender,
+          phone
+        }])
         .select()
         .single();
 

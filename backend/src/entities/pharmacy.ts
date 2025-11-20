@@ -2,7 +2,7 @@
 // pode contar mudanças :) | :(
 
 import { Pharmacy } from "./users-models.js";
-import { User } from "./users-models.js";
+import { Consumer } from "./users-models.js";
 
 type OrderStatus =
   | "canceled"
@@ -38,8 +38,8 @@ interface Payment {
 
 interface Order {
   id: number;
-  user: User["name"];
-  userId: User["id"];
+  user: Consumer["name"];
+  userId: Consumer["id"];
   pharmacy: Pharmacy["name"];
   pharmacyId: Pharmacy["id"];
   status: OrderStatus;

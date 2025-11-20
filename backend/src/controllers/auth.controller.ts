@@ -35,7 +35,7 @@ export const register = async (req: Request, res: Response) => {
   // Criar usuário
   const { data: user, error: createError } = await supabase
     .from("users")
-    .insert([{ name, email, password: hash, CPF, birth, gender, phone, role: "user" }])
+    .insert([{ name, email, password: hash, CPF, birth, gender, phone, role: "CONSUMER" }])
     .select()
     .single();
 

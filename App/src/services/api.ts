@@ -1,26 +1,56 @@
 const API_URL = "https://aura-project-uowq.onrender.com";
 
-export async function login(email: string, password: string) {
+export async function login(identifier: string, password: string) {
+  // identifier = email OU CPF
   const res = await fetch(`${API_URL}/api/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ identifier, password }),
   });
+
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || "Login inválido");
-  return data.token; // Supondo que o backend retorna { token: ... }
+  return data.token;
 }
 
-export async function register(name: string, email: string, password: string) {
+export async function register(
+  name: string,
+  CPF: string,
+  email: string,
+  password: string,
+  birth: string,
+  gender: string,
+  phone: string,
+  role: string
+) {
   const res = await fetch(`${API_URL}/api/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, password }),
+    body: JSON.stringify({
+      name,
+      CPF,
+      email,
+      password,
+      birth,
+      gender,
+      phone,
+      role,
+    }),
   });
+
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "Falha ao registrar");
+
+  if (!res.ok) {
+    const message =
+      typeof data.error === "object" && data.error?.message
+        ? data.error.message
+        : data.error || "Falha ao registrar";
+    throw new Error(message);
+  }
+
   return data;
 }
+
 
 export async function getPharmacies(token: string) {
   const res = await fetch(`${API_URL}/api/pharmacies`, {
@@ -40,6 +70,5 @@ export async function getProducts(token: string) {
 
 export async function getMensagem() {
   const res = await fetch(`${API_URL}/`);
-  const data = await res.text();
-  return data;
+  return await res.text();
 }
