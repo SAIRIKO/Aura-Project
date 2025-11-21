@@ -18,6 +18,7 @@ interface Product {
   category: string;
   activeIngredient: string;
   price: number;
+  discount: number;
   stock: number;
   pharmacy: Pharmacy["name"];
   pharmacyId: Pharmacy["id"];

@@ -1,5 +1,7 @@
 import express from "express";
 import pharmacyRouter from "./routes/pharmacy.routes";
+import { adminRouter } from "./routes/admin.routes";
+import { userRouter } from "./routes/user.routes";
 import dotenv from "dotenv";
 import { supabase } from "./supabaseClient";
 
@@ -10,11 +12,12 @@ app.use(express.json());
 
 // Rotas
 app.use("/pharmacies", pharmacyRouter);
+app.use("/admins", adminRouter);
+app.use("/users", userRouter);
 
 // Função para iniciar o servidor
 async function startServer() {
     try {
-        // Teste simples de conexão com Supabase
         const { data, error } = await supabase.from("pharmacies").select("id").limit(1);
 
         if (error) {
