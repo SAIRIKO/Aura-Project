@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import HomeScreen from "./src/screens/HomeScreen";
-
-export default function App() {
-  return <HomeScreen />;
-}
-=======
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -25,7 +18,7 @@ export default function App() {
   return (
     <CartProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Login" id={undefined}>
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
@@ -40,4 +33,3 @@ export default function App() {
     </CartProvider>
   );
 }
->>>>>>> 8ebc828259ef6b7f836d82831a67bb56db4ce7ab
