@@ -1,21 +1,21 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 // Mocks must be declared before importing the module under test
-import { supabaseMock } from './mocks/supabaseMock';
+import { supabaseMock } from '../mocks/supabaseMock';
 
 vi.mock('jsonwebtoken', () => {
   const verify = vi.fn();
   return { default: { verify }, verify };
 });
 
-vi.mock('../src/supabaseClient', () => ({
+vi.mock('../../src/supabaseClient', () => ({
   supabase: supabaseMock,
 }));
 
 // Ensure JWT_SECRET exists for the middleware (avoids 500 in tests)
 process.env.JWT_SECRET = process.env.JWT_SECRET || 'test_jwt_secret';
 
-import { requireAdmin } from '../src/middleware/admin.middleware';
+import { requireAdmin } from '../../src/middleware/admin.middleware';
 import jwt from 'jsonwebtoken';
 
 describe('requireAdmin middleware', () => {

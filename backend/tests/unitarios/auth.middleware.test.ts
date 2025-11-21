@@ -6,7 +6,7 @@ vi.mock('jsonwebtoken', () => {
   return { default: { verify }, verify };
 });
 
-import { authMiddleware } from '../src/middleware/auth.middleware';
+import { authMiddleware } from '../../src/middleware/auth.middleware';
 import jwt from 'jsonwebtoken';
 
 describe('authMiddleware', () => {

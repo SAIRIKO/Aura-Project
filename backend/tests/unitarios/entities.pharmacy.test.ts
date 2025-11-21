@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validatePharmacy } from '../src/entities/validators';
+import { validatePharmacy } from '../../src/entities/validators';
 
 describe('entities/pharmacy validation', () => {
   it('validação deve passar para farmácia válida', () => {

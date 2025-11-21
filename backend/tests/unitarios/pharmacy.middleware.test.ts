@@ -5,7 +5,7 @@ vi.mock('jsonwebtoken', () => {
   return { default: { verify }, verify };
 });
 
-import { pharmacyAuthMiddleware } from '../src/middleware/pharmacy.middleware';
+import { pharmacyAuthMiddleware } from '../../src/middleware/pharmacy.middleware';
 import jwt from 'jsonwebtoken';
 
 describe('pharmacyAuthMiddleware', () => {

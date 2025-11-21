@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { supabaseMock } from './mocks/supabaseMock';
+import { supabaseMock } from '../mocks/supabaseMock';
 
-vi.mock('../src/supabaseClient', () => ({ supabase: supabaseMock }));
+vi.mock('../../src/supabaseClient', () => ({ supabase: supabaseMock }));
 
-import { productController } from '../src/controllers/product.controller';
+import { productController } from '../../src/controllers/product.controller';
 
 describe('productController.create', () => {
   beforeEach(() => vi.clearAllMocks());

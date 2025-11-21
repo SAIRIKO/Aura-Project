@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { supabaseMock } from './mocks/supabaseMock';
+import { supabaseMock } from '../mocks/supabaseMock';
 
-vi.mock('../src/supabaseClient', () => ({
+vi.mock('../../src/supabaseClient', () => ({
   supabase: supabaseMock,
 }));
 
-import { pharmacyController } from '../src/controllers/pharmacy.controller';
+import { pharmacyController } from '../../src/controllers/pharmacy.controller';
 
 describe('pharmacyController.me', () => {
   beforeEach(() => {

@@ -1,0 +1,43 @@
+TESTS DOCUMENTATION - Aura Project (backend)
+Date: 2025-11-21
+
+Resumo
+- Local dos testes: `backend/tests`
+- Suite separada em duas pastas principais:
+  - `unitarios/` : testes unitários (Vitest, com mocks)
+  - `integracao/` : testes de integração leves (Supertest + supabaseMock)
+
+Mocks
+- `tests/mocks/supabaseMock.ts`: mock central do cliente Supabase usado nas suites unitárias e de integração. Simula encadeamento (`from().select().eq().limit().single()`) e expõe `_setResponse()` para controlar retorno.
+
+Testes Unitários (`backend/tests/unitarios`)
+- `admin.middleware.test.ts` : valida comportamento do middleware `requireAdmin` (403 quando não é admin).
+- `auth.middleware.test.ts` : valida `authMiddleware` (token inválido retorna 401).
+- `pharmacy.middleware.test.ts` : valida `pharmacyAuthMiddleware` (token ausente/inválido).
+- `product.controller.test.ts` : testes de `productController.create` (criação com sucesso e falha de validação).
+- `pharmacy.controller.test.ts` : teste de `pharmacyController.me` (farmácia inexistente retorna 404).
+- `pharmacy.list.test.ts` : teste de `pharmacyController.getAll` (lista farmácias).
+- `entities.pharmacy.test.ts` : validações de entidade `Pharmacy` (funcões em `src/entities/validators.ts`).
+- `entities.users-models.test.ts` : validações de entidade `User`.
+
+Testes de Integração (`backend/tests/integracao`)
+- `pharmacy.integration.test.ts` : roda o router real `pharmacies` com `supertest`; testa `GET /pharmacies` e `POST /pharmacies/create` usando o `supabaseMock`.
+- `product.integration.test.ts` : rota de teste que chama `productController.create` (bypass de auth para simplicidade); valida criação de produto via `single()` do mock.
+
+Como rodar os testes (diretório `backend`)
+- Rodar todas (modo watch):
+  `npx vitest`
+- Rodar todas (uma vez):
+  `npx vitest run`
+- Rodar apenas unitários:
+  `npm run test:unit`
+- Rodar apenas integrações:
+  `npm run test:integration`
+
+Notas
+- Os testes de integração atuais usam `supabaseMock` (não tocam um Supabase real). Para testes de integração contra Supabase real é necessário configurar variáveis de ambiente (`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE` ou credenciais de teste) e adicionar seed/cleanup.
+- A configuração de descoberta do Vitest foi atualizada em `backend/vitest.config.ts` para incluir explicitamente `tests/unitarios` e `tests/integracao`.
+
+Se quiser, eu posso:
+- Gerar um README.md mais detalhado na pasta `backend/tests`.
+- Converter os testes de integração para usar um Supabase de teste (implementando seed + rollback).

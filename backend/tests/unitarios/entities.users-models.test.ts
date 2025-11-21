@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateUser } from '../src/entities/validators';
+import { validateUser } from '../../src/entities/validators';
 
 describe('entities/users-models validation', () => {
   it('validação deve passar para usuário válido', () => {
