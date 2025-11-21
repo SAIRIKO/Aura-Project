@@ -1,3 +1,5 @@
+import { vi } from 'vitest';
+
 export const supabaseMock = {
     from: vi.fn().mockReturnThis(),
     select: vi.fn().mockReturnThis(),
@@ -5,12 +7,12 @@ export const supabaseMock = {
     update: vi.fn().mockReturnThis(),
     delete: vi.fn().mockReturnThis(),
     eq: vi.fn().mockReturnThis(),
+    limit: vi.fn().mockReturnThis(),
+    single: vi.fn(),
 
     // controle dos retornos
     _setResponse(data: any, error: any = null) {
-        this.select.mockResolvedValue({ data, error });
-        this.insert.mockResolvedValue({ data, error });
-        this.update.mockResolvedValue({ data, error });
-        this.delete.mockResolvedValue({ data, error });
+        // For chains that end with .single()
+        this.single.mockResolvedValue({ data, error });
     }
 };
