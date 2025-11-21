@@ -26,9 +26,13 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^4.17.25",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^20.5.0",
+    "@types/node": "^20.19.25",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.1.4",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "viem": "^2.39.3",
+    "vitest": "^4.0.13"
   }
 }
