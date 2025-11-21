@@ -1,25 +1,40 @@
 import { Request, Response } from "express";
-import { prisma } from "../prismaClient";
+import { supabase } from "../supabaseClient";
 
 export const adminController = {
-  // ✅ Aprovar farmácia
+  // Aprovar farmácia
   async approvePharmacy(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
 
-      const pharmacy = await prisma.pharmacy.update({
-        where: { id },
-        data: { approved: true },
-      });
+      if (!id) {
+        return res.status(400).json({ error: "ID inválido." });
+      }
 
-      res.json({
+      // Atualiza o campo "approved" para true
+      const { data: pharmacy, error } = await supabase
+        .from("pharmacies")
+        .update({ approved: true })
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) {
+        return res.status(400).json({
+          error: "Erro ao aprovar farmácia",
+          details: error.message,
+        });
+      }
+
+      return res.json({
         message: "Farmácia aprovada com sucesso!",
         pharmacy,
       });
     } catch (error) {
-      res
-        .status(400)
-        .json({ error: "Erro ao aprovar farmácia", details: error });
+      return res.status(500).json({
+        error: "Erro inesperado ao aprovar farmácia",
+        details: (error as any).message,
+      });
     }
   },
 };

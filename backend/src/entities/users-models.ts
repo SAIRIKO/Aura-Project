@@ -3,25 +3,30 @@
 import { Order } from "./pharmacy.js";
 import { Product } from "./pharmacy.js";
 
-type Role = "user" | "pharmacy" | "admin" | "pharmacyOwner";
+type Role = "CONSUMER" | "PHARMACY" | "ADMIN" | "pharmacyOwner";
+type Gender = "male" | "female" | "other" | "not_informed";
 
 interface BaseUser {
   id: number;
   name: string;
   email: string;
   password: string;
+  CPF: number;
+  birth: Date;
+  gender: Gender;
+  phone: number;
   role: Role;
   address?: string;
 }
 
-interface User extends BaseUser {
-  role: "user";
+interface Consumer extends BaseUser {
+  role: "CONSUMER";
   orders: Order;
   pharmacy?: Pharmacy["name"];
 }
 
 interface Admin extends BaseUser {
-  role: "admin";
+  role: "ADMIN";
 }
 
 interface PharmacyOwner extends BaseUser {
@@ -41,6 +46,6 @@ interface Pharmacy extends BaseUser {
 
 // Exportações :0
 
-export { User };
+export { Consumer };
 export { Pharmacy };
 export { Admin };
