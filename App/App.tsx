@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+import HomeScreen from "./src/screens/HomeScreen";
+
+export default function App() {
+  return <HomeScreen />;
+}
+=======
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -33,3 +40,4 @@ export default function App() {
     </CartProvider>
   );
 }
+>>>>>>> 8ebc828259ef6b7f836d82831a67bb56db4ce7ab
