@@ -65,7 +65,7 @@ coverage/
 
 # IDEs
 .idea/
-*.iml
+*.iml   
 
 # Sensitive / environment
 .env

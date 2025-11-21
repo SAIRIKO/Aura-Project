@@ -1,47 +1,51 @@
 # Aura-Project
 Aura é um projeto acadêmico desenvolvido por estudantes do 8º semestre da Universidade Católica de Brasília (UCB). O projeto propõe a criação de um marketplace voltado para farmácias, implementado por meio de um aplicativo móvel (APP) que visa facilitar o acesso a produtos farmacêuticos e promover uma experiência de compra mais prática e integrada.
 
-## Como rodar os testes (backend)
+### Como rodar os testes (backend)
 
 Requisitos mínimos:
-- Node.js (recomendado 18.x ou superior)
-- npm (vem com o Node.js)
+
+Node.js (recomendado 18.x ou superior)
+
+npm (vem com o Node.js)
 
 Passos rápidos (PowerShell):
 
-1. Abra o terminal na pasta do projeto e entre na pasta `backend`:
+Abra o terminal na pasta do projeto e entre na pasta "backend":
 
-```powershell
 cd C:\Users\MuriloCauaBarrosCarr\Downloads\Aura\Aura-Project\backend
-```
 
-2. Instale dependências:
+Instale dependências:
 
-```powershell
 npm install
-```
 
-3. Executar os testes:
+Executar os testes:
 
-- Rodar todos os testes em modo watch:
-```powershell
+Rodar todos os testes em modo watch:
 npx vitest
-```
-- Rodar todos os testes uma vez (não-watch):
-```powershell
+
+Rodar todos os testes uma vez (não-watch):
 npx vitest run
-```
-- Rodar só os unitários:
-```powershell
+
+Rodar só os unitários:
 npm run test:unit
-```
-- Rodar só as integrações:
-```powershell
+
+Rodar só as integrações:
 npm run test:integration
-```
+
+Gerar relatório de cobertura de testes:
+
+Rodar cobertura:
+npm run coverage
+
+Após a execução, um relatório será gerado na pasta:
+backend/coverage/
+
+Para visualizar o relatório completo, abra o arquivo:
+backend/coverage/index.html
 
 Observação:
-- Os testes usam `dotenv` para carregar variáveis de ambiente (arquivo `.env`). Certifique-se de ter um `.env` com quaisquer segredos necessários (ex.: `JWT_SECRET`) se você estiver rodando testes que dependam dessas variáveis.
+Os testes usam dotenv para carregar variáveis de ambiente do arquivo .env. Certifique-se de ter um .env configurado com as variáveis necessárias (por exemplo: JWT_SECRET) se estiver rodando testes que dependem dessas informações.
 
 ## Como rodar o backend e o frontend
 

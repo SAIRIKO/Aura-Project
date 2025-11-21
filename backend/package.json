@@ -9,7 +9,8 @@
     "start": "node dist/server.js",
     "test": "vitest",
     "test:unit": "vitest run tests/unitarios/**/*.test.ts",
-    "test:integration": "vitest run tests/integracao/**/*.test.ts"
+    "test:integration": "vitest run tests/integracao/**/*.test.ts",
+    "coverage": "vitest run --coverage"
   },
   "supabase": {
     "seed": "ts-node supabase/seed.ts"
@@ -30,6 +31,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20.19.25",
     "@types/supertest": "^6.0.3",
+    "@vitest/coverage-v8": "^4.0.13",
     "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "supertest": "^7.1.4",

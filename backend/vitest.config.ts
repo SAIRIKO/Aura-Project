@@ -4,10 +4,17 @@ export default defineConfig({
     test: {
         globals: true,
         environment: "node",
-        // Limit test discovery to the unitarios and integracao folders
-        include: ["tests/unitarios/**/*.test.ts", "tests/integracao/**/*.test.ts"],
+
+        // Onde procurar testes
+        include: [
+            "tests/unitarios/**/*.test.ts",
+            "tests/integracao/**/*.test.ts"
+        ],
+
         coverage: {
+            provider: "v8",
             reporter: ["text", "html"],
+            reportsDirectory: "./coverage"
         },
     },
 });
