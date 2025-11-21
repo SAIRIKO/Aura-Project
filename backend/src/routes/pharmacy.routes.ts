@@ -6,7 +6,7 @@ const pharmacyRouter = Router();
 
 // Rotas públicas
 pharmacyRouter.get("/", pharmacyController.getAll);
-pharmacyRouter.post("/", pharmacyController.create);
+pharmacyRouter.post("/create", pharmacyController.create);
 pharmacyRouter.post("/login", pharmacyController.login);
 
 export default pharmacyRouter;

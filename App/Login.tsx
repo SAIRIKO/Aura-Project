@@ -13,10 +13,11 @@ WebBrowser.maybeCompleteAuthSession();
 type RootStackParamList = {
     Home: undefined;
     Register: undefined;
+    LoginPharmacy: undefined;
 };
 
 type LoginProps = {
-    navigation: StackNavigationProp<RootStackParamList, 'Home'>;
+    navigation: StackNavigationProp<RootStackParamList, 'Home', 'LoginPharmacy'>;
 };
 
 export default function Login({ navigation }: LoginProps) {
@@ -257,9 +258,9 @@ export default function Login({ navigation }: LoginProps) {
                             }}
                         />
 
-                        <TouchableOpacity style={{ width: "100%", marginBottom: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" }}>
+                        <TouchableOpacity onPress={() => navigation.navigate("LoginPharmacy")} style={{ width: "100%", marginBottom: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" }}>
                             <Image source={require("./assets/login/logoPreta.png")} style={{ width: 30, height: 30 }} />
-                            <Text style={{ fontSize: 14, color: "#1A1B4F", width: "40%", textAlign: "center", margin: 10, fontFamily: "Inter" }}>Política de Privacidade</Text>
+                            <Text style={{ fontSize: 14, color: "#1A1B4F", width: "40%", textAlign: "center", margin: 10, fontFamily: "Inter" }}>Trabalhe Conosco</Text>
                             <Image source={require("./assets/login/seta.png")} style={{ width: 30, height: 30, transform: [{ rotate: "90deg" }] }} />
                         </TouchableOpacity>
                     </View>

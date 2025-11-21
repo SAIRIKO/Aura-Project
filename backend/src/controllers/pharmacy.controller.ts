@@ -19,7 +19,7 @@ export const pharmacyController = {
         .from("pharmacies")
         .select(`
           *,
-          owner: users!ownerId ( id, name, email ),
+          owner: users!ownerId ( id, pharmacyname, pharmacyemail ),
           products (*)
         `);
 
@@ -47,7 +47,7 @@ export const pharmacyController = {
       const { data: existing } = await supabase
         .from("pharmacies")
         .select("*")
-        .eq("email", pharmacyemail)
+        .eq("pharmacyemail", pharmacyemail)
         .limit(1);
 
       if (existing && existing.length > 0) {
@@ -119,7 +119,7 @@ export const pharmacyController = {
     return res.json({
       id: pharmacy.id,
       pharmacyname: pharmacy.pharmacyname,
-      email: pharmacy.pharmacyemail,
+      pharmacyemail: pharmacy.pharmacyemail,
       token,
     });
   },
@@ -131,7 +131,7 @@ export const pharmacyController = {
 
     const { data: pharmacy, error } = await supabase
       .from("pharmacies")
-      .select("id, pharmacyName, email, cnpj, address, city, state, cep, phone, imageUrl, approval")
+      .select("id, pharmacyName, pharmacyemail, cnpj, address, city, state, cep, phone, imageUrl, approval")
       .eq("id", pharmacyId)
       .single();
 

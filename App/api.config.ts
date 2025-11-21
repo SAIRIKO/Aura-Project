@@ -6,5 +6,5 @@ export const ENDPOINTS = {
     LOGIN: "/auth/login",
     REGISTER: "/auth/register",
     PRODUCTS: "/products",
-    PHARMACIES: "/pharmacies",
+    PHARMACIES_CREATE: "/pharmacies/create",
 };
