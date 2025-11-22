@@ -8,7 +8,7 @@ vi.mock('../../src/supabaseClient', () => ({ supabase: supabaseMock }));
 import { productController } from '../../src/controllers/product.controller';
 
 describe('Integration - Product routes', () => {
-  let app: any;
+  let app: express.Express;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -29,5 +29,12 @@ describe('Integration - Product routes', () => {
 
     expect(res.status).toBe(201);
     expect(res.body).toEqual(created);
+  });
+
+  //atualizar produto
+  it('PUT /products/:id should update product', async () => {
+    const productId = 1;
+    const body = { name: 'Produto Y', price: 15, stock: 10 };
+    const updated = { id: productId, name: 'Produto Y', price: 15, stock: 10 };
   });
 });

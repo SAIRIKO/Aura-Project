@@ -24,6 +24,10 @@ Testes de Integração (`backend/tests/integracao`)
 - `pharmacy.integration.test.ts` : roda o router real `pharmacies` com `supertest`; testa `GET /pharmacies` e `POST /pharmacies/create` usando o `supabaseMock`.
 - `product.integration.test.ts` : rota de teste que chama `productController.create` (bypass de auth para simplicidade); valida criação de produto via `single()` do mock.
 
+Gerar relatório de cobertura de testes (`backend/tests/unitarios`)
+-Rodar cobertura: 
+  `npm run coverage`
+
 Como rodar os testes (diretório `backend`)
 - Rodar todas (modo watch):
   `npx vitest`

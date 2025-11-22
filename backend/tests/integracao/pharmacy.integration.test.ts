@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import request from 'supertest';
 import express from 'express';
+import bcrypt from 'bcryptjs';
 
 import { supabaseMock } from '../mocks/supabaseMock';
 vi.mock('../../src/supabaseClient', () => ({ supabase: supabaseMock }));
@@ -28,7 +29,18 @@ describe('Integration - Pharmacy routes', () => {
   });
 
   it('POST /pharmacies/create creates pharmacy', async () => {
-    const body = { pharmacyname: 'Farm B', pharmacyemail: 'b@x.com', password: '123', cnpj: 123, address: 'a', city: 'c', state: 'S', cep: '11111', pharmacyphone: 123 };
+    const body = {
+      pharmacyname: 'Farm B',
+      pharmacyemail: 'b@x.com',
+      password: '123',
+      cnpj: 123,
+      address: 'a',
+      city: 'c',
+      state: 'S',
+      cep: '11111',
+      pharmacyphone: 123
+    };
+
     const created = { id: 2, pharmacyname: 'Farm B' };
 
     // Ensure insert().select().single() resolves
@@ -40,4 +52,38 @@ describe('Integration - Pharmacy routes', () => {
     expect(res.status).toBe(201);
     expect(res.body).toEqual(created);
   });
-});
+
+  it('POST /pharmacies/login logs in pharmacy', async () => {
+    const body = { pharmacyemail: 'b@x.com', password: '123' };
+
+    // Gerar hash correto para simular senha da farmácia
+    const hashedPassword = await bcrypt.hash('123', 10);
+
+    const loggedInPharmacy = {
+      id: 2,
+      pharmacyemail: "b@x.com",
+      pharmacyname: "Farm B",
+      password: hashedPassword
+    };
+
+    supabaseMock.single.mockResolvedValueOnce({
+      data: loggedInPharmacy,
+      error: null
+    });
+
+    supabaseMock.from.mockReturnThis();
+
+    const res = await request(app)
+      .post('/pharmacies/login')
+      .send(body);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toMatchObject({
+  id: 2,
+  pharmacyemail: "b@x.com",
+  pharmacyname: "Farm B",
+  token: expect.any(String)  // 👈 token existe e é string
+  });
+  });
+
+})
