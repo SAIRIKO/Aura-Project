@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { View, TextInput, Text, TouchableOpacity, Image, Alert, Modal, ActivityIndicator, ScrollView, Keyboard, TouchableWithoutFeedback } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { API_BASE_URL, ENDPOINTS } from "./api.config";
+import { API_BASE_URL, ENDPOINTS } from "../api.config";
 import type { StackNavigationProp } from '@react-navigation/stack';
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import { supabase } from "./src/services/supabaseClient";
+import { supabase } from "../src/services/supabaseClient";
 import { useEffect } from "react";
 
 WebBrowser.maybeCompleteAuthSession();
@@ -126,7 +126,7 @@ export default function Login({ navigation }: LoginProps) {
                     <View style={{ backgroundColor: "#F3F3F3", width: "100%", display: "flex", justifyContent: "flex-start", flexDirection: "row", paddingTop: 50 }}>
                         {/* Logo */}
                         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                            <Image source={require("./assets/header/logo.png")} style={{ width: 35, height: 35, marginRight: 10, marginLeft: 15, marginTop: 10, marginBottom: 20 }} />
+                            <Image source={require("../assets/header/logo.png")} style={{ width: 35, height: 35, marginRight: 10, marginLeft: 15, marginTop: 10, marginBottom: 20 }} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
                             <Text style={{ fontSize: 25, fontWeight: "bold", color: "#1A1B4F", margin: 10, fontFamily: "Inter" }}>Aura</Text>
@@ -189,8 +189,8 @@ export default function Login({ navigation }: LoginProps) {
                                 <Image
                                     source={
                                         showPassword
-                                            ? require("./assets/login/eye.png")
-                                            : require("./assets/login/eye-off.png")
+                                            ? require("../assets/login/eye.png")
+                                            : require("../assets/login/eye-off.png")
                                     }
                                     style={{ width: 24, height: 24, tintColor: "#888" }}
                                 />
@@ -221,13 +221,13 @@ export default function Login({ navigation }: LoginProps) {
                     <Text style={{ color: "#666", fontSize: 14, marginBottom: 20, fontFamily: "Inter" }}>Outros métodos de entrada</Text>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", width: "65%", marginBottom: 30 }}>
                         <TouchableOpacity onPress={() => promptAsync()}>
-                            <Image source={require("./assets/login/google.png")} style={{ width: 40, height: 40 }} />
+                            <Image source={require("../assets/login/google.png")} style={{ width: 40, height: 40 }} />
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Image source={require("./assets/login/facebook.png")} style={{ width: 40, height: 40 }} />
+                            <Image source={require("../assets/login/facebook.png")} style={{ width: 40, height: 40 }} />
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Image source={require("./assets/login/apple.png")} style={{ width: 40, height: 40 }} />
+                            <Image source={require("../assets/login/apple.png")} style={{ width: 40, height: 40 }} />
                         </TouchableOpacity>
                     </View>
 
@@ -244,9 +244,9 @@ export default function Login({ navigation }: LoginProps) {
                     {/* Opções footer */}
                     <View style={{ backgroundColor: "#F3F3F3", width: "100%", alignItems: "flex-start", flex: 1, justifyContent: "flex-end" }}>
                         <TouchableOpacity style={{ width: "100%", marginBottom: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" }}>
-                            <Image source={require("./assets/login/duvida.png")} style={{ width: 35, height: 35 }} />
+                            <Image source={require("../assets/login/duvida.png")} style={{ width: 35, height: 35 }} />
                             <Text style={{ fontSize: 14, color: "#1A1B4F", width: "40%", textAlign: "center", margin: 10, fontFamily: "Inter" }}>Termos de Serviço</Text>
-                            <Image source={require("./assets/login/seta.png")} style={{ width: 30, height: 30, transform: [{ rotate: "90deg" }] }} />
+                            <Image source={require("../assets/login/seta.png")} style={{ width: 30, height: 30, transform: [{ rotate: "90deg" }] }} />
                         </TouchableOpacity>
 
                         <View
@@ -259,9 +259,9 @@ export default function Login({ navigation }: LoginProps) {
                         />
 
                         <TouchableOpacity onPress={() => navigation.navigate("LoginPharmacy")} style={{ width: "100%", marginBottom: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" }}>
-                            <Image source={require("./assets/login/logoPreta.png")} style={{ width: 30, height: 30 }} />
+                            <Image source={require("../assets/login/logoPreta.png")} style={{ width: 30, height: 30 }} />
                             <Text style={{ fontSize: 14, color: "#1A1B4F", width: "40%", textAlign: "center", margin: 10, fontFamily: "Inter" }}>Trabalhe Conosco</Text>
-                            <Image source={require("./assets/login/seta.png")} style={{ width: 30, height: 30, transform: [{ rotate: "90deg" }] }} />
+                            <Image source={require("../assets/login/seta.png")} style={{ width: 30, height: 30, transform: [{ rotate: "90deg" }] }} />
                         </TouchableOpacity>
                     </View>
                 </View >

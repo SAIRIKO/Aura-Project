@@ -75,7 +75,7 @@ export default function CarrinhoItens() {
           onPress={() => navigation.navigate('Home')}
           style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
         >
-          <Image source={require('./assets/header/logo.png')} style={{ width: 28, height: 28, marginLeft: 29 }} />
+          <Image source={require('../assets/header/logo.png')} style={{ width: 28, height: 28, marginLeft: 29 }} />
           <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 3, marginTop: 3, fontFamily: 'Inter' }}>
             Aura
           </Text>
@@ -83,7 +83,7 @@ export default function CarrinhoItens() {
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <Pressable onPress={() => navigation.navigate('CarrinhoItens')} style={{ position: 'relative' }}>
             <Image
-              source={require('./assets/header/cart.png')}
+              source={require('../assets/header/cart.png')}
               style={{ width: 29, height: 24, marginRight: 26 }}
               resizeMode="contain"
             />
@@ -108,7 +108,7 @@ export default function CarrinhoItens() {
               </View>
             )}
           </Pressable>
-          <Image source={require('./assets/header/sidebar.png')} style={{ width: 23, height: 27, marginRight: 27 }} />
+          <Image source={require('../assets/header/sidebar.png')} style={{ width: 23, height: 27, marginRight: 27 }} />
         </View>
       </View>
 

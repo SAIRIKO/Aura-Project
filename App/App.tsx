@@ -1,16 +1,16 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Login from "./Login";
-import Register from "./Register";
-import Produto from "./Produto";
-import Home from "./Home";
-import SearchResults from "./SearchResults";
-import Carrinho from "./Carrinho";
-import CarrinhoItens from "./CarrinhoItens";
-import { CartProvider } from "./CartContext";
-import LoginPharmacy from "./pharmacy_components/LoginPharmacy";
-import RegisterPharmacy from "./pharmacy_components/RegisterPharmacy";
+import Login from "./components_user/Login";
+import Register from "./components_user/Register";
+import Produto from "./components_user/Produto";
+import Home from "./components_user/Home";
+import SearchResults from "./components_user/SearchResults";
+import Carrinho from "./components_user/Carrinho";
+import CarrinhoItens from "./components_user/CarrinhoItens";
+import { CartProvider } from "./components_user/CartContext";
+import LoginPharmacy from "./components_pharmacy/LoginPharmacy";
+import RegisterPharmacy from "./components_pharmacy/RegisterPharmacy";
 
 const Stack = createStackNavigator();
 

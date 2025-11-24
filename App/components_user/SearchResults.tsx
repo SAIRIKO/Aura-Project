@@ -52,12 +52,12 @@ export default function SearchResults() {
 
     // Lista de produtos (mesma estrutura da Home)
     const produtosComDesconto = [
-        { id: '1', nome: 'Lactosil 10.000 FCC Lactase', preco: 'R$ 22,96', unidades: '30un', image: require('./assets/remedios/lactosil.png'), desconto: '-20%', precoOriginal: 'R$ 28,70' },
-        { id: '2', nome: 'Cálcio OS-Cal 500mg', preco: 'R$ 54,38', unidades: '60s', image: require('./assets/remedios/oscal.png'), desconto: '-15%', precoOriginal: 'R$ 64,00' },
-        { id: '3', nome: 'Dorflex Uno Efervescente', preco: 'R$ 28,99', unidades: '10un', image: require('./assets/remedios/dorflex.png'), desconto: '-10%', precoOriginal: 'R$ 32,21' },
-        { id: '4', nome: 'Buscopan Composto Adulto 10mg+250mg', preco: 'R$ 20,87', unidades: '20c', image: require('./assets/remedios/buscopan.png'), desconto: '-23%', precoOriginal: 'R$ 27,13' },
-        { id: '5', nome: 'Ibuprofeno 400mg Medley', preco: 'R$ 21,49', unidades: '10cps', image: require('./assets/remedios/ibuprofeno.png'), desconto: '-17%', precoOriginal: 'R$ 25,92' },
-        { id: '6', nome: 'Cloridrato Tramadol 37,5mg + Paracetamol 500mg', preco: 'R$ 55,90', unidades: '30c', image: require('./assets/remedios/paracetamol.png'), desconto: '-38%', precoOriginal: 'R$ 89,84' },
+        { id: '1', nome: 'Lactosil 10.000 FCC Lactase', preco: 'R$ 22,96', unidades: '30un', image: require('../assets/remedios/lactosil.png'), desconto: '-20%', precoOriginal: 'R$ 28,70' },
+        { id: '2', nome: 'Cálcio OS-Cal 500mg', preco: 'R$ 54,38', unidades: '60s', image: require('../assets/remedios/oscal.png'), desconto: '-15%', precoOriginal: 'R$ 64,00' },
+        { id: '3', nome: 'Dorflex Uno Efervescente', preco: 'R$ 28,99', unidades: '10un', image: require('../assets/remedios/dorflex.png'), desconto: '-10%', precoOriginal: 'R$ 32,21' },
+        { id: '4', nome: 'Buscopan Composto Adulto 10mg+250mg', preco: 'R$ 20,87', unidades: '20c', image: require('../assets/remedios/buscopan.png'), desconto: '-23%', precoOriginal: 'R$ 27,13' },
+        { id: '5', nome: 'Ibuprofeno 400mg Medley', preco: 'R$ 21,49', unidades: '10cps', image: require('../assets/remedios/ibuprofeno.png'), desconto: '-17%', precoOriginal: 'R$ 25,92' },
+        { id: '6', nome: 'Cloridrato Tramadol 37,5mg + Paracetamol 500mg', preco: 'R$ 55,90', unidades: '30c', image: require('../assets/remedios/paracetamol.png'), desconto: '-38%', precoOriginal: 'R$ 89,84' },
     ];
 
     // Filtrar produtos baseado no termo de busca
@@ -74,7 +74,7 @@ export default function SearchResults() {
             {/* Barra de Pesquisa */}
             <View style={{ backgroundColor: 'transparent', height: 90, width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'center', zIndex: 100, position: 'relative', elevation: 100 }}>
                 <View style={{ backgroundColor: '#F7F7F7', marginTop: 4, width: '87%', height: 50, borderRadius: 15, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', flexDirection: 'row', alignItems: 'center', elevation: 100 }}>
-                    <Image source={require('./assets/searchbar/lupa.png')} style={{ width: 30, height: 40, marginLeft: 9, marginTop: 3 }} resizeMode="contain"></Image>
+                    <Image source={require('../assets/searchbar/lupa.png')} style={{ width: 30, height: 40, marginLeft: 9, marginTop: 3 }} resizeMode="contain"></Image>
                     <TextInput
                         ref={searchInputRef}
                         style={{ fontSize: 16, fontFamily: 'Inter', marginLeft: 21, marginTop: 4, flex: 1, color: '#000', height: '100%' }}
@@ -176,12 +176,12 @@ export default function SearchResults() {
             {/* Cabeçalho */}
             <View style={{ backgroundColor: '#f3f3f3', height: 100, paddingTop: 30, width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.25)', zIndex: 10 }}>
                 <Pressable onPress={() => navigation.navigate('Home')} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <Image source={require('./assets/header/logo.png')} style={{ width: 28, height: 28, marginLeft: 29 }}></Image>
+                    <Image source={require('../assets/header/logo.png')} style={{ width: 28, height: 28, marginLeft: 29 }}></Image>
                     <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 3, marginTop: 3, fontFamily: 'Inter' }}>Aura</Text>
                 </Pressable>
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <Pressable onPress={() => navigation.navigate(cartRoute)} style={{ position: 'relative' }}>
-                        <Image source={require('./assets/header/cart.png')} style={{ width: 29, height: 24, marginRight: 26 }} resizeMode="contain"></Image>
+                        <Image source={require('../assets/header/cart.png')} style={{ width: 29, height: 24, marginRight: 26 }} resizeMode="contain"></Image>
                         {totalItems > 0 && (
                             <View style={{ position: 'absolute', top: -6, right: 14, minWidth: 18, height: 18, borderRadius: 9, backgroundColor: '#FF4D4F', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }}>
                                 <Text style={{ fontSize: 10, fontFamily: 'Inter', fontWeight: '600', color: '#fff' }}>
@@ -190,7 +190,7 @@ export default function SearchResults() {
                             </View>
                         )}
                     </Pressable>
-                    <Image source={require('./assets/header/sidebar.png')} style={{ width: 23, height: 27, marginRight: 27 }}></Image>
+                    <Image source={require('../assets/header/sidebar.png')} style={{ width: 23, height: 27, marginRight: 27 }}></Image>
                 </View>
             </View>
 

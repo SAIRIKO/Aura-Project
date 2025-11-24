@@ -72,12 +72,12 @@ export default function Carrinho() {
             {/* Cabeçalho */}
             <View style={{ backgroundColor: '#f3f3f3', height: 100, paddingTop: 30, width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.25)', zIndex: 10, position: 'static' }}>
                 <Pressable onPress={() => navigation.navigate('Home')} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <Image source={require('./assets/header/logo.png')} style={{ width: 28, height: 28, marginLeft: 29 }}></Image>
+                    <Image source={require('../assets/header/logo.png')} style={{ width: 28, height: 28, marginLeft: 29 }}></Image>
                     <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 3, marginTop: 3, fontFamily: 'Inter' }}>Aura</Text>
                 </Pressable>
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <Pressable onPress={() => navigation.navigate(items.length ? 'CarrinhoItens' : 'Carrinho')} style={{ position: 'relative' }}>
-                        <Image source={require('./assets/header/cart.png')} style={{ width: 29, height: 24, marginRight: 26 }} resizeMode="contain"></Image>
+                        <Image source={require('../assets/header/cart.png')} style={{ width: 29, height: 24, marginRight: 26 }} resizeMode="contain"></Image>
                         {totalItems > 0 && (
                             <View style={{ position: 'absolute', top: -6, right: 14, minWidth: 18, height: 18, borderRadius: 9, backgroundColor: '#FF4D4F', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }}>
                                 <Text style={{ fontSize: 10, fontFamily: 'Inter', fontWeight: '600', color: '#fff' }}>
@@ -86,14 +86,14 @@ export default function Carrinho() {
                             </View>
                         )}
                     </Pressable>
-                    <Image source={require('./assets/header/sidebar.png')} style={{ width: 23, height: 27, marginRight: 27 }}></Image>
+                    <Image source={require('../assets/header/sidebar.png')} style={{ width: 23, height: 27, marginRight: 27 }}></Image>
                 </View>
             </View>
 
             {/* Barra de Pesquisa */}
             <View style={{ backgroundColor: 'transparent', height: 90, width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'center', zIndex: 100, position: 'relative', elevation: 100 }}>
                 <View style={{ backgroundColor: '#F7F7F7', marginTop: 4, width: '87%', height: 50, borderRadius: 15, boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', flexDirection: 'row', alignItems: 'center', elevation: 100 }}>
-                    <Image source={require('./assets/searchbar/lupa.png')} style={{ width: 30, height: 40, marginLeft: 9, marginTop: 3 }} resizeMode="contain"></Image>
+                    <Image source={require('../assets/searchbar/lupa.png')} style={{ width: 30, height: 40, marginLeft: 9, marginTop: 3 }} resizeMode="contain"></Image>
                     <TextInput
                         ref={searchInputRef}
                         style={{ fontSize: 16, fontFamily: 'Inter', marginLeft: 21, marginTop: 4, flex: 1, color: '#000', height: '100%' }}
@@ -116,7 +116,7 @@ export default function Carrinho() {
             </View>
 
             {/* Imagem de fundo */}
-            <Image source={require('./assets/carrinho/carrinhobg.png')} style={{ width: '100%', height: 290, marginTop: 45 }} resizeMode="cover"></Image>
+            <Image source={require('../assets/carrinho/carrinhobg.png')} style={{ width: '100%', height: 290, marginTop: 45 }} resizeMode="cover"></Image>
             <Text style={{ fontSize: 25, fontFamily: 'Inter', fontWeight: '600', color: 'black', textAlign: 'center', marginTop: 20 }}>Seu carrinho está vazio</Text>
             <Text style={{ fontSize: 16, fontFamily: 'Inter', color: '#808080', textAlign: 'center', marginTop: 10 }}>Que tal aproveitar nossas ofertas?</Text>
             <Pressable style={{ width: '75%', height: 57, backgroundColor: '#1A1B4F', marginTop: 30, borderRadius: 30, shadowColor: '#000', shadowOpacity: 0.25, shadowOffset: { width: 2, height: 3 }, shadowRadius: 2, elevation: 2, alignSelf: 'center' }} onPress={() => navigation.navigate('Home')}>

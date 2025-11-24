@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, TextInput, Text, TouchableOpacity, Image, Alert, Modal, FlatList, ScrollView, Keyboard, TouchableWithoutFeedback } from "react-native";
 import type { StackNavigationProp } from '@react-navigation/stack';
-import { register } from "./src/services/api";
+import { register } from "../src/services/api";
 
 type RootStackParamList = {
     Login: undefined;
@@ -120,7 +120,7 @@ export default function Register({ navigation }: RegisterProps) {
                     <View style={{ backgroundColor: "#F3F3F3", width: "100%", display: "flex", justifyContent: "flex-start", flexDirection: "row", paddingTop: 50 }}>
                         {/* Logo */}
                         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                            <Image source={require("./assets/header/logo.png")} style={{ width: 35, height: 35, marginRight: 10, marginLeft: 15, marginTop: 10, marginBottom: 20 }} />
+                            <Image source={require("../assets/header/logo.png")} style={{ width: 35, height: 35, marginRight: 10, marginLeft: 15, marginTop: 10, marginBottom: 20 }} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
                             <Text style={{ fontSize: 25, fontWeight: "bold", color: "#1A1B4F", margin: 10, fontFamily: "Inter" }}>Aura</Text>
@@ -252,8 +252,8 @@ export default function Register({ navigation }: RegisterProps) {
                                 <Image
                                     source={
                                         showPassword
-                                            ? require("./assets/login/eye.png")
-                                            : require("./assets/login/eye-off.png")
+                                            ? require("../assets/login/eye.png")
+                                            : require("../assets/login/eye-off.png")
                                     }
                                     style={{ width: 24, height: 24, tintColor: "#888" }}
                                 />
@@ -292,8 +292,8 @@ export default function Register({ navigation }: RegisterProps) {
                                 <Image
                                     source={
                                         showConfirmPassword
-                                            ? require("./assets/login/eye.png")
-                                            : require("./assets/login/eye-off.png")
+                                            ? require("../assets/login/eye.png")
+                                            : require("../assets/login/eye-off.png")
                                     }
                                     style={{ width: 24, height: 24, tintColor: "#888" }}
                                 />
@@ -327,9 +327,9 @@ export default function Register({ navigation }: RegisterProps) {
                     {/* Opções footer */}
                     <View style={{ backgroundColor: "#F3F3F3", width: "100%", alignItems: "flex-start", flex: 1, }}>
                         <TouchableOpacity style={{ width: "100%", marginBottom: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" }}>
-                            <Image source={require("./assets/login/duvida.png")} style={{ width: 35, height: 35 }} />
+                            <Image source={require("../assets/login/duvida.png")} style={{ width: 35, height: 35 }} />
                             <Text style={{ fontSize: 14, color: "#1A1B4F", width: "40%", textAlign: "center", margin: 10, fontFamily: "Inter" }}>Termos de Serviço</Text>
-                            <Image source={require("./assets/login/seta.png")} style={{ width: 30, height: 30, transform: [{ rotate: "90deg" }] }} />
+                            <Image source={require("../assets/login/seta.png")} style={{ width: 30, height: 30, transform: [{ rotate: "90deg" }] }} />
                         </TouchableOpacity>
 
                         <View
@@ -342,9 +342,9 @@ export default function Register({ navigation }: RegisterProps) {
                         />
 
                         <TouchableOpacity style={{ width: "100%", marginBottom: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" }}>
-                            <Image source={require("./assets/login/logoPreta.png")} style={{ width: 30, height: 30 }} />
+                            <Image source={require("../assets/login/logoPreta.png")} style={{ width: 30, height: 30 }} />
                             <Text style={{ fontSize: 14, color: "#1A1B4F", width: "40%", textAlign: "center", margin: 10, fontFamily: "Inter" }}>Política de Privacidade</Text>
-                            <Image source={require("./assets/login/seta.png")} style={{ width: 30, height: 30, transform: [{ rotate: "90deg" }] }} />
+                            <Image source={require("../assets/login/seta.png")} style={{ width: 30, height: 30, transform: [{ rotate: "90deg" }] }} />
                         </TouchableOpacity>
                     </View>
 
