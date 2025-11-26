@@ -11,6 +11,7 @@ import CarrinhoItens from "./components_user/CarrinhoItens";
 import { CartProvider } from "./components_user/CartContext";
 import LoginPharmacy from "./components_pharmacy/LoginPharmacy";
 import RegisterPharmacy from "./components_pharmacy/RegisterPharmacy";
+import DashboardFarmacia from "./components_pharmacy/DashboardFarmacia";
 
 const Stack = createStackNavigator();
 
@@ -26,8 +27,10 @@ export default function App() {
           <Stack.Screen name="SearchResults" component={SearchResults} options={{ headerShown: false }} />
           <Stack.Screen name="Carrinho" component={Carrinho} options={{ headerShown: false }} />
           <Stack.Screen name="CarrinhoItens" component={CarrinhoItens} options={{ headerShown: false }} />
+
           <Stack.Screen name="RegisterPharmacy" component={RegisterPharmacy} options={{ headerShown: false }} />
           <Stack.Screen name="LoginPharmacy" component={LoginPharmacy} options={{ headerShown: false }} />
+          <Stack.Screen name="DashboardFarmacia" component={DashboardFarmacia} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </CartProvider>

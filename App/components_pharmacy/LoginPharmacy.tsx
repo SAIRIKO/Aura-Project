@@ -68,7 +68,7 @@ export default function LoginPharmacy({ navigation }: Props) {
                     />
                 </View>
 
-                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("DashboardFarmacia")}>
                     <Text style={styles.buttonText}>Entrar</Text>
                 </TouchableOpacity>
             </View>
