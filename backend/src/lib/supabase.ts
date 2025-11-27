@@ -7,7 +7,7 @@ const SUPABASE_KEY =
 
 if (!SUPABASE_URL || !SUPABASE_KEY) {
   throw new Error(
-    "Variáveis SUPABASE_URL e SUPABASE_SERVICE_ROLE / SUPABASE_KEY são necessárias"
+    "Variáveis 'SUPABASE_URL' e 'SUPABASE_SERVICE_ROLE' / 'SUPABASE_KEY são necessárias'"
   );
 }
 
