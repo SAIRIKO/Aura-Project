@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import authRouter from "./routes/auth.routes";
 import { userRouter } from "./routes/user.routes";
 import pharmacyRouter from "./routes/pharmacy.routes";
-import { productRouter } from "./routes/product.routes";
+import productRouter from "./routes/product.routes";
 import { adminRouter } from "./routes/admin.routes";
 import { supabase } from "./supabaseClient";
 
@@ -36,6 +36,10 @@ async function startServer() {
   try {
     console.log("Conectando ao Supabase...");
 
+    //  rodar um select teste se quiser:
+    // const { error } = await supabase.from("users").select("id").limit(1);
+    // if (error) throw error;
+
     console.log("Conectado ao Supabase.");
 
     app.listen(PORT, () => {
@@ -49,7 +53,8 @@ async function startServer() {
 
 startServer();
 
-app.get("/api/health", async (req, res) => {
+// === Health Check ===
+app.get("/api/health", async (_req, res) => {
   try {
     const { data, error } = await supabase.from("users").select("id").limit(1);
 
