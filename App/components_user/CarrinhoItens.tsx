@@ -20,6 +20,7 @@ type RootStackParamList = {
   };
   Carrinho: undefined;
   CarrinhoItens: undefined;
+  Cupom: undefined;
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
@@ -213,7 +214,7 @@ export default function CarrinhoItens() {
           </Text>
         </View>
         <Pressable
-          onPress={() => clearCart()}
+          onPress={() => navigation.navigate("Cupom")}
           style={{
             width: '100%',
             height: 52,
@@ -226,7 +227,7 @@ export default function CarrinhoItens() {
           <Text style={{ fontSize: 16, fontFamily: 'Inter', fontWeight: '600', color: '#fff' }}>Finalizar compra</Text>
         </Pressable>
       </View>
-    </View>
+    </View >
   );
 }
 
