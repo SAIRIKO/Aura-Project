@@ -1,8 +1,4 @@
 import { supabase } from "../lib/supabase";
-import type {
-  CreateProductInput,
-  UpdateProductInput,
-} from "../schemas/product.schema";
 
 const PRODUCTS_TABLE = "products";
 
@@ -11,6 +7,7 @@ export async function listProducts(): Promise<any[]> {
     .from(PRODUCTS_TABLE)
     .select("*")
     .order("created_at", { ascending: false });
+
   if (error) throw error;
   return data ?? [];
 }
@@ -21,28 +18,43 @@ export async function getProductById(id: string) {
     .select("*")
     .eq("id", id)
     .single();
-  if (error) throw error;
+
+  if (error) {
+    if (error.code === "PGRST116" || error.code === "406") return null;
+    if (error.message?.includes("Row not found")) return null;
+
+    throw error;
+  }
+
   return data;
 }
 
-export async function createProduct(payload: CreateProductInput) {
+export async function createProduct(payload: any) {
   const { data, error } = await supabase
     .from(PRODUCTS_TABLE)
     .insert([payload])
     .select()
     .single();
+
   if (error) throw error;
   return data;
 }
 
-export async function updateProduct(id: string, payload: UpdateProductInput) {
+export async function updateProduct(id: string, payload: any) {
   const { data, error } = await supabase
     .from(PRODUCTS_TABLE)
     .update(payload)
     .eq("id", id)
     .select()
     .single();
-  if (error) throw error;
+
+  if (error) {
+    if (error.code === "PGRST116" || error.code === "406") return null;
+    if (error.message?.includes("Row not found")) return null;
+
+    throw error;
+  }
+
   return data;
 }
 
@@ -53,6 +65,13 @@ export async function deleteProduct(id: string) {
     .eq("id", id)
     .select()
     .single();
-  if (error) throw error;
+
+  if (error) {
+    if (error.code === "PGRST116" || error.code === "406") return null;
+    if (error.message?.includes("Row not found")) return null;
+
+    throw error;
+  }
+
   return data;
 }
