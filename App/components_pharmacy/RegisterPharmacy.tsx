@@ -99,8 +99,8 @@ export default function RegisterScreen({ navigation }: any) {
         if (numeric.length > 7) {
             formatted = "(" + numeric.slice(0, 2) + ") " + numeric.slice(2, 7) + "-" + numeric.slice(7, 11);
         }
-        handleInputChange("responsiblephone", formatted);
-        handleInputChange("phoneRaw", numeric);
+        handleInputChange("pharmacyphone", formatted);
+        handleInputChange("pharmacyphoneRaw", numeric);
     };
 
     // ----- Validação -----
@@ -300,7 +300,7 @@ export default function RegisterScreen({ navigation }: any) {
                             autoCapitalize="words"
                             value={formData.responsiblename}
                             onChangeText={(v) => handleInputChange("responsiblename", v)}
-                        />
+                        /> {/* Estou com probelma aqui, não consigo escrever nada, o teclado aparece mas quando clica os caracteres não aparecem */}
                         {errors.responsiblename && <Text style={styles.error}>{errors.responsiblename}</Text>}
 
                         <Text style={{ fontSize: 16, color: "#1A1B4F", marginBottom: 6, marginTop: 20 }}>CRF (Conselho Regional de farmácia)</Text>
@@ -328,10 +328,10 @@ export default function RegisterScreen({ navigation }: any) {
                             style={styles.input}
                             keyboardType="phone-pad"
                             placeholder="(00) 00000-0000"
-                            value={formData.responsiblephone}
-                            onChangeText={handlePhoneChange}
+                            value={formData.pharmacyphone}
+                            onChangeText={(v) => handleInputChange("pharmacyphone", v)}
                         />
-                        {errors.responsiblephone && <Text style={styles.error}>{errors.responsiblephone}</Text>}
+                        {errors.pharmacyphone && <Text style={styles.error}>{errors.pharmacyphone}</Text>}
 
                         {/* Senha */}
                         <Text style={{ fontSize: 16, color: "#1A1B4F", marginBottom: 6, marginTop: 20 }}>Senha</Text>

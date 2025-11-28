@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import authRouter from "./routes/auth.routes";
 import { userRouter } from "./routes/user.routes";
 import pharmacyRouter from "./routes/pharmacy.routes";
-import { productRouter } from "./routes/product.routes";
+import productRouter from "./routes/product.routes";
 import { adminRouter } from "./routes/admin.routes";
 import { supabase } from "./supabaseClient";
 
@@ -26,7 +26,7 @@ app.use("/api/admin", adminRouter);
 
 // === Rota base (teste rápido) ===
 app.get("/", (_req, res) => {
-  res.json({ message: "🚀 API Aura Project online with Supabase!" });
+  res.json({ message: "API Aura Project online with Supabase!" });
 });
 
 // === Inicialização do servidor ===
@@ -34,23 +34,27 @@ const PORT = process.env.PORT || 4000;
 
 async function startServer() {
   try {
-    console.log(" Conectando ao Supabase...");
+    console.log("Conectando ao Supabase...");
 
-    console.log(" Conectado ao Supabase.");
+    //  rodar um select teste se quiser:
+    // const { error } = await supabase.from("users").select("id").limit(1);
+    // if (error) throw error;
+
+    console.log("Conectado ao Supabase.");
 
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+      console.log(`Servidor rodando em http://localhost:${PORT}`);
     });
-
   } catch (error) {
-    console.error("❌ Erro ao conectar ao Supabase:", error);
+    console.error("Erro ao conectar ao Supabase:", error);
     process.exit(1);
   }
 }
 
 startServer();
 
-app.get("/api/health", async (req, res) => {
+// === Health Check ===
+app.get("/api/health", async (_req, res) => {
   try {
     const { data, error } = await supabase.from("users").select("id").limit(1);
 
@@ -58,20 +62,20 @@ app.get("/api/health", async (req, res) => {
       return res.status(500).json({
         status: "error",
         database: "offline",
-        error: error.message
+        error: error.message,
       });
     }
 
     res.json({
       status: "ok",
       database: "online",
-      exampleQuery: data
+      exampleQuery: data,
     });
   } catch (err) {
     res.status(500).json({
       status: "error",
       database: "offline",
-      details: err
+      details: err,
     });
   }
 });

@@ -33,6 +33,7 @@ export default function App() {
 
           <Stack.Screen name="RegisterPharmacy" component={RegisterPharmacy} options={{ headerShown: false }} />
           <Stack.Screen name="LoginPharmacy" component={LoginPharmacy} options={{ headerShown: false }} />
+          <Stack.Screen name="DashboardFarmacia" component={DashboardFarmacia} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </CartProvider>

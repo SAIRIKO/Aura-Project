@@ -1,138 +1,67 @@
 import { Request, Response } from "express";
-import { supabase } from "../supabaseClient";
+import * as service from "../services/product.service";
+import {
+  createProductSchema,
+  updateProductSchema,
+} from "../schemas/product.schema";
 
-export const productController = {
-  // Listar produtos
-  async getAll(req: Request, res: Response) {
-    try {
-      const { data: products, error } = await supabase
-        .from("products")
-        .select("*, pharmacy(*)"); // join simples
+export async function listHandler(req: Request, res: Response) {
+  try {
+    const products = await service.listProducts();
+    return res.json(products);
+  } catch (err: any) {
+    console.error(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
 
-      if (error) {
-        return res
-          .status(500)
-          .json({ error: "Erro ao listar produtos", details: error });
-      }
+export async function getHandler(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const product = await service.getProductById(id);
+    if (!product)
+      return res.status(404).json({ error: "Produto não encontrado" });
+    return res.json(product);
+  } catch (err: any) {
+    console.error(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
 
-      res.json(products);
-    } catch (error) {
-      res
-        .status(500)
-        .json({ error: "Erro inesperado ao listar produtos", details: error });
-    }
-  },
+export async function createHandler(req: Request, res: Response) {
+  try {
+    const parsed = createProductSchema.parse(req.body);
+    const product = await service.createProduct(parsed);
+    return res.status(201).json(product);
+  } catch (err: any) {
+    console.error(err);
+    if (err.name === "ZodError")
+      return res.status(400).json({ error: err.errors });
+    return res.status(500).json({ error: err.message });
+  }
+}
 
-  // Criar produto
-  async create(req: Request, res: Response) {
-    try {
-      const {
-        name,
-        description,
-        category,
-        activeIngredient,
-        price,
-        stock,
-        imageUrl,
-        pharmacyId,
-      } = req.body;
+export async function updateHandler(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const parsed = updateProductSchema.parse(req.body);
+    const product = await service.updateProduct(id, parsed);
+    return res.json(product);
+  } catch (err: any) {
+    console.error(err);
+    if (err.name === "ZodError")
+      return res.status(400).json({ error: err.errors });
+    return res.status(500).json({ error: err.message });
+  }
+}
 
-      const { data: product, error } = await supabase
-        .from("products")
-        .insert([
-          {
-            name,
-            description,
-            category,
-            activeIngredient,
-            price,
-            stock,
-            imageUrl,
-            pharmacyId, // FK direto
-          },
-        ])
-        .select()
-        .single();
-
-      if (error) {
-        return res
-          .status(400)
-          .json({ error: "Erro ao criar produto", details: error });
-      }
-
-      res.status(201).json(product);
-    } catch (error) {
-      res
-        .status(400)
-        .json({ error: "Erro inesperado ao criar produto", details: error });
-    }
-  },
-
-  // Atualizar produto
-  async update(req: Request, res: Response) {
-    try {
-      const id = Number(req.params.id);
-
-      const {
-        name,
-        description,
-        category,
-        price,
-        stock,
-        imageUrl,
-        activeIngredient,
-      } = req.body;
-
-      const { data: updated, error } = await supabase
-        .from("products")
-        .update({
-          name,
-          description,
-          category,
-          price,
-          stock,
-          imageUrl,
-          activeIngredient,
-        })
-        .eq("id", id)
-        .select()
-        .single();
-
-      if (error) {
-        return res
-          .status(400)
-          .json({ error: "Erro ao atualizar produto", details: error });
-      }
-
-      res.json(updated);
-    } catch (error) {
-      res
-        .status(400)
-        .json({ error: "Erro inesperado ao atualizar produto", details: error });
-    }
-  },
-
-  // Deletar produto
-  async remove(req: Request, res: Response) {
-    try {
-      const id = Number(req.params.id);
-
-      const { error } = await supabase
-        .from("products")
-        .delete()
-        .eq("id", id);
-
-      if (error) {
-        return res
-          .status(400)
-          .json({ error: "Erro ao remover produto", details: error });
-      }
-
-      res.json({ message: "Produto removido com sucesso" });
-    } catch (error) {
-      res
-        .status(400)
-        .json({ error: "Erro inesperado ao remover produto", details: error });
-    }
-  },
-};
+export async function deleteHandler(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    await service.deleteProduct(id);
+    return res.status(204).send();
+  } catch (err: any) {
+    console.error(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
