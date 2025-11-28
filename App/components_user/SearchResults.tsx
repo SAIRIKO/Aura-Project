@@ -1,4 +1,4 @@
-import { Text, View, Image, Pressable, FlatList, TextInput } from 'react-native';
+import { Text, View, Image, Pressable, FlatList, TextInput, Modal, ScrollView } from 'react-native';
 import { useMemo, useState, useRef } from 'react';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -6,6 +6,8 @@ import { BlurView } from 'expo-blur';
 import { useCart } from './CartContext';
 
 type RootStackParamList = {
+    Login: undefined;
+    Register: undefined;
     Home: undefined;
     Produto: {
         id: string;
@@ -21,6 +23,12 @@ type RootStackParamList = {
     };
     Carrinho: undefined;
     CarrinhoItens: undefined;
+};
+
+type Props = {
+  visible: boolean;
+  onClose: () => void;
+  navigation: any;
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
@@ -59,6 +67,9 @@ export default function SearchResults() {
         { id: '5', nome: 'Ibuprofeno 400mg Medley', preco: 'R$ 21,49', unidades: '10cps', image: require('../assets/remedios/ibuprofeno.png'), desconto: '-17%', precoOriginal: 'R$ 25,92' },
         { id: '6', nome: 'Cloridrato Tramadol 37,5mg + Paracetamol 500mg', preco: 'R$ 55,90', unidades: '30c', image: require('../assets/remedios/paracetamol.png'), desconto: '-38%', precoOriginal: 'R$ 89,84' },
     ];
+
+    const [menuVisible, setMenuVisible] = useState(false);
+    const onClose = () => setMenuVisible(false);
 
     // Filtrar produtos baseado no termo de busca
     const produtosFiltrados = useMemo(() => {
@@ -190,8 +201,166 @@ export default function SearchResults() {
                             </View>
                         )}
                     </Pressable>
-                    <Image source={require('../assets/header/sidebar.png')} style={{ width: 23, height: 27, marginRight: 27 }}></Image>
+                    <Pressable onPress={() => setMenuVisible(true)}>
+                        <Image 
+                          source={require('../assets/header/sidebar.png')}
+                          style={{ width: 23, height: 27, marginRight: 27 }}
+                        />
+                    </Pressable>                 
                 </View>
+                <Modal
+                      animationType="slide"
+                      transparent
+                      visible={menuVisible}
+                      onRequestClose={onClose}
+                    >
+                      {/* Fundo com blur */}
+                      <Pressable onPress={onClose} style={{ flex: 1 }}>
+                        <BlurView
+                          intensity={20}
+                          tint="light"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            position: 'absolute',
+                          }}
+                        />
+                      </Pressable>
+                
+                      {/* MENU LATERAL */}
+                      <View
+                        style={{
+                          position: 'absolute',
+                          left: 0,
+                          top: 0,
+                          height: '100%',
+                          width: '78%',
+                          backgroundColor: '#fff',
+                          paddingTop: 60,
+                          paddingHorizontal: 20,
+                          shadowColor: '#000',
+                          shadowOpacity: 0.2,
+                          shadowRadius: 6,
+                          elevation: 6,
+                        }}
+                      >
+                        <ScrollView showsVerticalScrollIndicator={false}>
+                          {/* Header do menu */}
+                          <View>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 6 }}>
+                              Boas-vindas!
+                            </Text>
+                            <Text style={{ fontSize: 13, color: '#808080', marginBottom: 15 }}>
+                              Faça seu Login ou Cadastro
+                            </Text>
+                
+                            <Pressable
+                              onPress={() => {
+                                onClose();
+                                navigation.navigate('Login');
+                              }}
+                              style={{
+                                width: '100%',
+                                height: 45,
+                                backgroundColor: '#1A1B4F',
+                                borderRadius: 22,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginBottom: 25,
+                              }}
+                            >
+                              <Text style={{ color: '#fff', fontWeight: '600', fontSize: 16 }}>
+                                Entrar
+                              </Text>
+                            </Pressable>
+                            
+                            <Pressable
+                              onPress={() => {
+                                onClose();
+                                navigation.navigate('Register');
+                              }}
+                              style={{
+                                width: '100%',
+                                height: 45,
+                                backgroundColor: '#F3F3F3',
+                                borderRadius: 22,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginBottom: 10,
+                              }}
+                            >
+                              <Text style={{ marginTop: 11 ,color: '#555', marginBottom: 20 }}>
+                                Cadastrar
+                              </Text>
+                            </Pressable>
+                            
+                          </View> 
+                
+                          {/* Opções do menu */}
+                          {[
+                            { label: 'Desconto e benefícios', icon: require('../assets/menu/descontos.png') },
+                            { label: 'Lojas parceiras', icon: require('../assets/menu/lojas.png') },
+                            { label: 'Ofertas no app', icon: require('../assets/menu/ofertas.png') },
+                            { label: 'Serviços de saúde (em breve)', icon: require('../assets/menu/saude.png'), disabled: true },
+                
+                          ].map((item, idx) => (
+                            <Pressable
+                              key={idx}
+                              disabled={item.disabled}
+                              style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                paddingVertical: 14,
+                                opacity: item.disabled ? 0.4 : 1
+                              }}
+                            >
+                              <Image
+                                source={item.icon}
+                                style={{ width: 26, height: 26, marginRight: 16 }}
+                                resizeMode="contain"
+                              />
+                              <Text style={{ fontSize: 15 }}>{item.label}</Text>
+                            </Pressable>
+                          ))}
+                
+                          {/* Categorias */}
+                          <View style={{ marginTop: 20 }}>
+                            <Text style={{ color: '#a0a0a0', marginBottom: 10, fontSize: 13 }}>Categorias</Text>
+                
+                            {[
+                              'Saúde',
+                              'Vitaminas e suplementos',
+                              'Beleza',
+                              'Cosméticos'
+                            ].map((cat, i) => (
+                              <Pressable key={i} style={{ paddingVertical: 14 }}>
+                                <Text style={{ fontSize: 15 }}>{cat}</Text>
+                              </Pressable>
+                            ))}
+                          </View>
+                
+                          {/* Extra */}
+                          <View style={{ marginTop: 20 }}>
+                            {[
+                              { label: 'Encontre uma farmácia', icon: require('../assets/menu/lojas.png') },
+                              { label: 'Central de Atendimento', icon: require('../assets/menu/atendimento.png') },
+                              { label: 'Trabalhe conosco', icon: require('../assets/menu/logo.png') },
+                            ].map((item, i) => (
+                              <Pressable
+                                key={i}
+                                style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 14 }}
+                              >
+                                <Image
+                                  source={item.icon}
+                                  style={{ width: 22, height: 22, marginRight: 16 }}
+                                />
+                                <Text style={{ fontSize: 15 }}>{item.label}</Text>
+                              </Pressable>
+                            ))}
+                          </View>
+                        </ScrollView>
+                      </View>
+                    </Modal>
             </View>
 
             {/* FlatList com header e resultados */}
@@ -207,5 +376,6 @@ export default function SearchResults() {
                 showsVerticalScrollIndicator={false}
             />
         </View>
+        
     );
 };

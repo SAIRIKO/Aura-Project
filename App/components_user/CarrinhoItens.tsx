@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
-import { Text, View, Image, ScrollView, Pressable } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Text, View, Image, ScrollView, Pressable, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { BlurView } from 'expo-blur';
 import { useCart } from './CartContext';
 
 type RootStackParamList = {
+  Login: undefined;
+  Register: undefined;
   Home: undefined;
   Produto: {
     id: string;
@@ -20,9 +23,16 @@ type RootStackParamList = {
   };
   Carrinho: undefined;
   CarrinhoItens: undefined;
+  Cupom: undefined;
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
+
+type Props = {
+  visible: boolean;
+  onClose: () => void;
+  navigation: any;
+};
 
 const formatCurrency = (value: number) =>
   value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -53,6 +63,9 @@ export default function CarrinhoItens() {
   const handleIncrease = (id: string, currentQuantity: number) => {
     updateQuantity(id, currentQuantity + 1);
   };
+
+  const [menuVisible, setMenuVisible] = useState(false);
+  const onClose = () => setMenuVisible(false);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -108,10 +121,16 @@ export default function CarrinhoItens() {
               </View>
             )}
           </Pressable>
-          <Image source={require('../assets/header/sidebar.png')} style={{ width: 23, height: 27, marginRight: 27 }} />
+          <View>
+            <Pressable onPress={() => setMenuVisible(true)}>
+              <Image
+                source={require('../assets/header/sidebar.png')}
+                style={{ width: 23, height: 27, marginRight: 27 }}
+              />
+            </Pressable>
+          </View>
         </View>
       </View>
-
       {/* Breadcrumbs */}
       <View
         style={{
@@ -213,7 +232,7 @@ export default function CarrinhoItens() {
           </Text>
         </View>
         <Pressable
-          onPress={() => clearCart()}
+          onPress={() => navigation.navigate("Cupom")}
           style={{
             width: '100%',
             height: 52,
@@ -225,8 +244,161 @@ export default function CarrinhoItens() {
         >
           <Text style={{ fontSize: 16, fontFamily: 'Inter', fontWeight: '600', color: '#fff' }}>Finalizar compra</Text>
         </Pressable>
+      </View>        
+              <Modal
+      animationType="slide"
+      transparent
+      visible={menuVisible}
+      onRequestClose={onClose}
+    >
+      {/* Fundo com blur */}
+      <Pressable onPress={onClose} style={{ flex: 1 }}>
+        <BlurView
+          intensity={20}
+          tint="light"
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+          }}
+        />
+      </Pressable>
+
+      {/* MENU LATERAL */}
+      <View
+        style={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          height: '100%',
+          width: '78%',
+          backgroundColor: '#fff',
+          paddingTop: 60,
+          paddingHorizontal: 20,
+          shadowColor: '#000',
+          shadowOpacity: 0.2,
+          shadowRadius: 6,
+          elevation: 6,
+        }}
+      >
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* Header do menu */}
+          <View>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 6 }}>
+              Boas-vindas!
+            </Text>
+            <Text style={{ fontSize: 13, color: '#808080', marginBottom: 15 }}>
+              Faça seu Login ou Cadastro
+            </Text>
+
+            <Pressable
+              onPress={() => {
+                onClose();
+                navigation.navigate('Login');
+              }}
+              style={{
+                width: '100%',
+                height: 45,
+                backgroundColor: '#1A1B4F',
+                borderRadius: 22,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 25,
+              }}
+            >
+              <Text style={{ color: '#fff', fontWeight: '600', fontSize: 16 }}>
+                Entrar
+              </Text>
+            </Pressable>
+            
+            <Pressable
+              onPress={() => {
+                onClose();
+                navigation.navigate('Register');
+              }}
+              style={{
+                width: '100%',
+                height: 45,
+                backgroundColor: '#F3F3F3',
+                borderRadius: 22,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 10,
+              }}
+            >
+              <Text style={{ marginTop: 11 ,color: '#555', marginBottom: 20 }}>
+                Cadastrar
+              </Text>
+            </Pressable>
+            
+          </View> 
+
+          {/* Opções do menu */}
+          {[
+            { label: 'Desconto e benefícios', icon: require('../assets/menu/descontos.png') },
+            { label: 'Lojas parceiras', icon: require('../assets/menu/lojas.png') },
+            { label: 'Ofertas no app', icon: require('../assets/menu/ofertas.png') },
+            { label: 'Serviços de saúde (em breve)', icon: require('../assets/menu/saude.png'), disabled: true },
+
+          ].map((item, idx) => (
+            <Pressable
+              key={idx}
+              disabled={item.disabled}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingVertical: 14,
+                opacity: item.disabled ? 0.4 : 1
+              }}
+            >
+              <Image
+                source={item.icon}
+                style={{ width: 26, height: 26, marginRight: 16 }}
+                resizeMode="contain"
+              />
+              <Text style={{ fontSize: 15 }}>{item.label}</Text>
+            </Pressable>
+          ))}
+
+          {/* Categorias */}
+          <View style={{ marginTop: 20 }}>
+            <Text style={{ color: '#a0a0a0', marginBottom: 10, fontSize: 13 }}>Categorias</Text>
+
+            {[
+              'Saúde',
+              'Vitaminas e suplementos',
+              'Beleza',
+              'Cosméticos'
+            ].map((cat, i) => (
+              <Pressable key={i} style={{ paddingVertical: 14 }}>
+                <Text style={{ fontSize: 15 }}>{cat}</Text>
+              </Pressable>
+            ))}
+          </View>
+
+          {/* Extra */}
+          <View style={{ marginTop: 20 }}>
+            {[
+              { label: 'Encontre uma farmácia', icon: require('../assets/menu/lojas.png') },
+              { label: 'Central de Atendimento', icon: require('../assets/menu/atendimento.png') },
+              { label: 'Trabalhe conosco', icon: require('../assets/menu/logo.png') },
+            ].map((item, i) => (
+              <Pressable
+                key={i}
+                style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 14 }}
+              >
+                <Image
+                  source={item.icon}
+                  style={{ width: 22, height: 22, marginRight: 16 }}
+                />
+                <Text style={{ fontSize: 15 }}>{item.label}</Text>
+              </Pressable>
+            ))}
+          </View>
+        </ScrollView>
       </View>
-    </View>
+    </Modal>
+    </View >
   );
 }
 
