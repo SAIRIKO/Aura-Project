@@ -1,14 +1,24 @@
-import { useState } from "react";
-import { View, Text, Image, Pressable, TextInput, ScrollView } from "react-native";
+import { useState, useMemo } from "react";
+import { View, Text, Image, Pressable, TextInput, ScrollView, Modal } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { BlurView } from 'expo-blur';
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useCart } from './CartContext';
 
 type RootStackParamList = {
+    Login: undefined;
+    Register: undefined;
     Home: undefined;
     CarrinhoItens: undefined;
     Cupom: undefined;
     Pagamento: undefined;
     Confirmacao: undefined;
+};
+
+type Props = {
+  visible: boolean;
+  onClose: () => void;
+  navigation: any;
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
@@ -37,6 +47,40 @@ export default function Pagamento() {
 
         navigation.navigate("CarrinhoItens");
     };
+
+    const [menuVisible, setMenuVisible] = useState(false);
+    const onClose = () => setMenuVisible(false);    
+
+    const { items } = useCart();
+
+    // Função para garantir que o valor seja tratado como número válido
+    const parsePrice = (price: string | undefined): number => {
+        const parsed = parseFloat(price || "0");
+        return isNaN(parsed) ? 0 : parsed;
+    };
+
+    // Cálculo do total sem desconto
+    const total = items.reduce((acc, item) => {
+      // Se houver um preço válido no item, usamos ele
+      const precoItem = item.preco ? parsePrice(item.preco) : 0;
+      
+      // Verificação de NaN (caso a conversão para número falhe)
+      if (isNaN(precoItem)) {
+        return acc; // Se o preço não for um número válido, simplesmente não o soma
+      }
+
+      return acc + precoItem * item.quantidade;
+    }, 0);
+
+    // Desconto do cupom
+    const [cupomDesconto, setCupomDesconto] = useState(0);
+
+    const aplicarCupom = (desconto: number) => {
+        setCupomDesconto(desconto);
+    };
+
+    // Cálculo do valor final (após o desconto do cupom)
+    const valorFinal = total - (total * (cupomDesconto / 100));
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -81,10 +125,12 @@ export default function Pagamento() {
                             style={{ width: 29, height: 24, marginRight: 26 }}
                         />
                     </Pressable>
-                    <Image
-                        source={require("../assets/header/sidebar.png")}
-                        style={{ width: 23, height: 27, marginRight: 27 }}
-                    />
+                    <Pressable onPress={() => setMenuVisible(true)}>
+                        <Image 
+                            source={require('../assets/header/sidebar.png')}
+                            style={{ width: 23, height: 27, marginRight: 27 }}
+                        />
+                    </Pressable>  
                 </View>
             </View>
 
@@ -110,15 +156,41 @@ export default function Pagamento() {
                 >
                     Início &gt; Carrinho &gt; Cupom &gt;
                 </Text>
-                <Text style={{ fontSize: 14, fontFamily: "Inter", color: "black" }}>
-                    {" "}
+                <Text style={{ fontSize: 14, fontFamily: "Inter", color: "black" }} >
                     Pagamento
                 </Text>
             </View>
 
             <ScrollView contentContainerStyle={{ padding: 24, paddingBottom: 120 }}>
+                {/* Cálculo do total */}
+                <View style={{ marginBottom: 12 }}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                        <Text style={{ fontSize: 16, fontFamily: "Inter", color: "#4F4F4F" }}>
+                            Total dos itens:
+                        </Text>
+                        <Text style={{ fontSize: 16, fontFamily: "Inter", color: "#4F4F4F" }}>
+                            R$ {total.toFixed(2)}
+                        </Text>
+                    </View>
+                    {cupomDesconto > 0 && (
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                            <Text style={{ fontSize: 16, fontFamily: "Inter", color: "#4F4F4F" }}>
+                                Cupom aplicado:
+                            </Text>
+                            <Text style={{ fontSize: 16, fontFamily: "Inter", fontWeight: "600", color: "#67C58F" }}>
+                                - R$ {(total * (cupomDesconto / 100)).toFixed(2)}
+                            </Text>
+                        </View>
+                    )}
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 8 }}>
+                        <Text style={{ fontSize: 18, fontFamily: "Inter", fontWeight: "600" }}>Valor final:</Text>
+                        <Text style={{ fontSize: 18, fontFamily: "Inter", fontWeight: "600" }}>
+                            R$ {valorFinal.toFixed(2)}
+                        </Text>
+                    </View>
+                </View>
 
-                {/* Título */}
+                {/* Escolher método de pagamento */}
                 <Text
                     style={{
                         fontSize: 18,
@@ -132,7 +204,6 @@ export default function Pagamento() {
 
                 {/* Métodos */}
                 <View style={{ gap: 16 }}>
-                    {/* PIX */}
                     <Pressable
                         onPress={() => setMetodo("pix")}
                         style={{
@@ -146,7 +217,6 @@ export default function Pagamento() {
                         <Text style={{ fontSize: 16, fontFamily: "Inter" }}>📱 PIX</Text>
                     </Pressable>
 
-                    {/* Cartão */}
                     <Pressable
                         onPress={() => setMetodo("cartao")}
                         style={{
@@ -162,7 +232,6 @@ export default function Pagamento() {
                         </Text>
                     </Pressable>
 
-                    {/* Boleto */}
                     <Pressable
                         onPress={() => setMetodo("boleto")}
                         style={{
@@ -222,7 +291,6 @@ export default function Pagamento() {
                         </View>
                     </View>
                 )}
-
             </ScrollView>
 
             {/* Botão inferior */}

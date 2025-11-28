@@ -20,7 +20,7 @@ export default function App() {
   return (
     <CartProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" id={undefined}>
+        <Stack.Navigator initialRouteName="Home" id={undefined}>
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
@@ -33,7 +33,6 @@ export default function App() {
 
           <Stack.Screen name="RegisterPharmacy" component={RegisterPharmacy} options={{ headerShown: false }} />
           <Stack.Screen name="LoginPharmacy" component={LoginPharmacy} options={{ headerShown: false }} />
-          <Stack.Screen name="DashboardFarmacia" component={DashboardFarmacia} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </CartProvider>
