@@ -300,7 +300,7 @@ export default function RegisterScreen({ navigation }: any) {
                             autoCapitalize="words"
                             value={formData.responsiblename}
                             onChangeText={(v) => handleInputChange("responsiblename", v)}
-                        /> {/* Estou com probelma aqui, não consigo escrever nada, o teclado aparece mas quando clica os caracteres não aparecem */}
+                        />
                         {errors.responsiblename && <Text style={styles.error}>{errors.responsiblename}</Text>}
 
                         <Text style={{ fontSize: 16, color: "#1A1B4F", marginBottom: 6, marginTop: 20 }}>CRF (Conselho Regional de farmácia)</Text>

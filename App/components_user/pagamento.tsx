@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { View, Text, Image, Pressable, TextInput, ScrollView, Modal } from "react-native";
+import { View, Text, Image, Pressable, TextInput, ScrollView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { BlurView } from 'expo-blur';
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -16,9 +16,9 @@ type RootStackParamList = {
 };
 
 type Props = {
-  visible: boolean;
-  onClose: () => void;
-  navigation: any;
+    visible: boolean;
+    onClose: () => void;
+    navigation: any;
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
@@ -49,7 +49,7 @@ export default function Pagamento() {
     };
 
     const [menuVisible, setMenuVisible] = useState(false);
-    const onClose = () => setMenuVisible(false);    
+    const onClose = () => setMenuVisible(false);
 
     const { items } = useCart();
 
@@ -61,15 +61,15 @@ export default function Pagamento() {
 
     // Cálculo do total sem desconto
     const total = items.reduce((acc, item) => {
-      // Se houver um preço válido no item, usamos ele
-      const precoItem = item.preco ? parsePrice(item.preco) : 0;
-      
-      // Verificação de NaN (caso a conversão para número falhe)
-      if (isNaN(precoItem)) {
-        return acc; // Se o preço não for um número válido, simplesmente não o soma
-      }
+        // Se houver um preço válido no item, usamos ele
+        const precoItem = item.preco ? parsePrice(item.preco) : 0;
 
-      return acc + precoItem * item.quantidade;
+        // Verificação de NaN (caso a conversão para número falhe)
+        if (isNaN(precoItem)) {
+            return acc; // Se o preço não for um número válido, simplesmente não o soma
+        }
+
+        return acc + precoItem * item.quantidade;
     }, 0);
 
     // Desconto do cupom
@@ -126,11 +126,11 @@ export default function Pagamento() {
                         />
                     </Pressable>
                     <Pressable onPress={() => setMenuVisible(true)}>
-                        <Image 
+                        <Image
                             source={require('../assets/header/sidebar.png')}
                             style={{ width: 23, height: 27, marginRight: 27 }}
                         />
-                    </Pressable>  
+                    </Pressable>
                 </View>
             </View>
 
@@ -311,28 +311,27 @@ export default function Pagamento() {
                     elevation: 10,
                 }}
             >
-                <Pressable
-                    onPress={finalizarPagamento}
-                    style={{
-                        width: "100%",
-                        height: 52,
-                        backgroundColor: "#1A1B4F",
-                        borderRadius: 26,
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Text
+                <TouchableOpacity onPress={() => navigation.navigate("Confirmacao")}>
+                    <View
                         style={{
-                            color: "#fff",
-                            fontSize: 16,
-                            fontFamily: "Inter",
-                            fontWeight: "600",
+                            backgroundColor: "#67C58F",
+                            paddingVertical: 16,
+                            borderRadius: 12,
+                            alignItems: "center",
                         }}
                     >
-                        Finalizar pagamento
-                    </Text>
-                </Pressable>
+                        <Text
+                            style={{
+                                color: "#fff",
+                                fontSize: 18,
+                                fontWeight: "600",
+                                fontFamily: "Inter",
+                            }}
+                        >
+                            Finalizar Pagamento
+                        </Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         </View>
     );

@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import {
-    View, Text, TextInput, TouchableOpacity, Alert,
-    ScrollView, StyleSheet
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    Alert,
+    ScrollView,
+    StyleSheet,
 } from "react-native";
 import type { StackNavigationProp } from "@react-navigation/stack";
-import { login } from "../src/services/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { pharmacyLogin } from "../src/services/api";
 
 type Props = {
     navigation: StackNavigationProp<any>;
@@ -21,39 +27,45 @@ export default function LoginPharmacy({ navigation }: Props) {
         }
 
         try {
-            // aqui você pode usar sua função de login real
-            const token = await login(email, password);
+            const data = await pharmacyLogin(email, password);
+
+            if (!data?.token) {
+                throw new Error("Token não recebido");
+            }
+
+            await AsyncStorage.setItem("pharmacy_token", data.token);
+
             Alert.alert("Sucesso", "Login realizado!");
-            navigation.navigate("Home"); // navega para home ou tela desejada
-        } catch (e: any) {
-            Alert.alert("Erro", e?.message || "Falha no login");
+            navigation.navigate("StockControl");
+        } catch (error: any) {
+            Alert.alert("Erro", error?.message || "Falha no login");
         }
     };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {/* Logo */}
             <View style={styles.logoContainer}>
                 <View style={styles.logo}>
                     <Text style={styles.logoText}>💊</Text>
                 </View>
                 <Text style={styles.title}>Aura</Text>
-                <Text style={styles.subtitle}>Gestão Inteligente de Farmácias</Text>
+                <Text style={styles.subtitle}>
+                    Gestão Inteligente de Farmácias
+                </Text>
             </View>
 
-            {/* Login Form */}
             <View style={styles.form}>
                 <Text style={styles.formTitle}>Entrar na sua conta</Text>
 
                 <View style={styles.inputGroup}>
                     <Text style={styles.label}>E-mail</Text>
                     <TextInput
-                        placeholder="seu@email.com"
+                        placeholder="email@farmacia.com"
                         value={email}
                         onChangeText={setEmail}
                         style={styles.input}
-                        keyboardType="email-address"
                         autoCapitalize="none"
+                        keyboardType="email-address"
                     />
                 </View>
 
@@ -63,35 +75,33 @@ export default function LoginPharmacy({ navigation }: Props) {
                         placeholder="••••••••"
                         value={password}
                         onChangeText={setPassword}
-                        style={styles.input}
                         secureTextEntry
+                        style={styles.input}
                     />
                 </View>
 
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("DashboardFarmacia")}>
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                     <Text style={styles.buttonText}>Entrar</Text>
                 </TouchableOpacity>
             </View>
 
-            {/* Links */}
             <View style={styles.links}>
                 <TouchableOpacity>
                     <Text style={styles.linkText}>Esqueci minha senha</Text>
                 </TouchableOpacity>
 
                 <View style={styles.registerContainer}>
-                    <Text style={styles.registerText}>Não tem uma conta?</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("RegisterPharmacy")}>
+                    <Text style={styles.registerText}>
+                        Não tem uma conta?
+                    </Text>
+                    <TouchableOpacity
+                        onPress={() =>
+                            navigation.navigate("RegisterPharmacy")
+                        }
+                    >
                         <Text style={styles.registerLink}> Criar conta</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
-
-            {/* Demo Info */}
-            <View style={styles.demoContainer}>
-                <Text style={styles.demoText}>
-                    <Text style={{ fontWeight: "bold" }}>Demo:</Text> Use "admin@example.com" para admin ou "farmacia@example.com" para farmácia
-                </Text>
             </View>
         </ScrollView>
     );
@@ -187,14 +197,5 @@ const styles = StyleSheet.create({
     registerLink: {
         color: "#3B82F6",
         fontWeight: "bold",
-    },
-    demoContainer: {
-        backgroundColor: "#DBEAFE",
-        padding: 15,
-        borderRadius: 16,
-    },
-    demoText: {
-        color: "#475569",
-        textAlign: "center",
     },
 });

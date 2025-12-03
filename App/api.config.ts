@@ -7,4 +7,5 @@ export const ENDPOINTS = {
     REGISTER: "/auth/register",
     PRODUCTS: "/products",
     PHARMACIES_CREATE: "/pharmacies/create",
+    PHARMACIES_LOGIN: "/pharmacies/login"
 };

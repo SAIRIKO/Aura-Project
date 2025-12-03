@@ -13,6 +13,9 @@ import Cupom from "./components_user/Cupom";
 import LoginPharmacy from "./components_pharmacy/LoginPharmacy";
 import RegisterPharmacy from "./components_pharmacy/RegisterPharmacy";
 import Pagamento from "./components_user/pagamento";
+import Confirmacao from "./components_user/Confirmacao";
+import AcompanharPedido from "./components_user/AcompanharPedido";
+import StockControl from "./components_pharmacy/StockControl";
 
 const Stack = createStackNavigator();
 
@@ -30,6 +33,9 @@ export default function App() {
           <Stack.Screen name="CarrinhoItens" component={CarrinhoItens} options={{ headerShown: false }} />
           <Stack.Screen name="Cupom" component={Cupom} options={{ headerShown: false }} />
           <Stack.Screen name="Pagamento" component={Pagamento} options={{ headerShown: false }} />
+          <Stack.Screen name="Confirmacao" component={Confirmacao} options={{ headerShown: false }} />
+          <Stack.Screen name="AcompanharPedido" component={AcompanharPedido} options={{ headerShown: false }} />
+          <Stack.Screen name="StockControl" component={StockControl} options={{ headerShown: false }} />
 
           <Stack.Screen name="RegisterPharmacy" component={RegisterPharmacy} options={{ headerShown: false }} />
           <Stack.Screen name="LoginPharmacy" component={LoginPharmacy} options={{ headerShown: false }} />
